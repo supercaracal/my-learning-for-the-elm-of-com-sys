@@ -7,7 +7,7 @@
  * The ALU (Arithmetic Logic Unit).
  * Computes one of the following functions:
  * x+y, x-y, y-x, 0, 1, -1, x, y, -x, -y, !x, !y,
- * x+1, y+1, x-1, y-1, x&y, x|y on two 16-bit inputs, 
+ * x+1, y+1, x-1, y-1, x&y, x|y on two 16-bit inputs,
  * according to 6 input bits denoted zx,nx,zy,ny,f,no.
  * In addition, the ALU computes two 1-bit outputs:
  * if the ALU output == 0, zr is set to 1; otherwise zr is set to 0;
@@ -27,8 +27,8 @@
 // if (out < 0) set ng = 1
 
 CHIP ALU {
-    IN  
-        x[16], y[16],  // 16-bit inputs        
+    IN
+        x[16], y[16],  // 16-bit inputs
         zx, // zero the x input?
         nx, // negate the x input?
         zy, // zero the y input?
@@ -36,11 +36,50 @@ CHIP ALU {
         f,  // compute out = x + y (if 1) or x & y (if 0)
         no; // negate the out output?
 
-    OUT 
+    OUT
         out[16], // 16-bit output
         zr, // 1 if (out == 0), 0 otherwise
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+    Mux16(a=x, b=false, sel=zx, out=ozx);
+    Not16(in=ozx, out=onx);
+    Mux16(a=ozx, b=onx, sel=nx, out=ox);
+
+    Mux16(a=y, b=false, sel=zy, out=ozy);
+    Not16(in=ozy, out=ony);
+    Mux16(a=ozy, b=ony, sel=ny, out=oy);
+
+    And16(a=ox, b=oy, out=of0);
+    Add16(a=ox, b=oy, out=of1);
+    Mux16(a=of0, b=of1, sel=f, out=outf);
+
+    Not16(in=outf, out=outn);
+    Mux16(a=outf, b=outn, sel=no, out=out);
+
+    /*********************************************/
+
+    Or8Way(in=x[0..7], out=x1);
+    Or8Way(in=x[8..15], out=x2);
+    Or(a=x1, b=x2, out=x3);
+    Not(in=x3, out=x4);
+    Or(a=x4, b=zx, out=x5);
+    Not(in=nx, out=nnx);
+    And(a=x5, b=nnx, out=x6);
+
+    Or8Way(in=y[0..7], out=y1);
+    Or8Way(in=y[8..15], out=y2);
+    Or(a=y1, b=y2, out=y3);
+    Not(in=y3, out=y4);
+    Or(a=y4, b=zy, out=y5);
+    Not(in=ny, out=nny);
+    And(a=y5, b=nny, out=y6);
+
+    And(a=x6, b=y6, out=xy);
+    Not(in=no, out=nono);
+    And(a=xy, b=nono, out=zr);
+
+    /*********************************************/
+
+    // TODO: impl
 }
