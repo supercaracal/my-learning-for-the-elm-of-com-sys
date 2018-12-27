@@ -27,5 +27,30 @@ CHIP Memory {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    Not(in=address[14], out=rflag);
+    And(a=rflag, b=load, out=rload);
+    RAM16K(in=in, load=rload, address=address[0..13], out=rout);
+
+    And(a=address[13], b=address[12], out=b1);
+    And(a=address[11], b=address[10], out=b2);
+    And(a=address[9],  b=address[8],  out=b3);
+    And(a=address[7],  b=address[6],  out=b4);
+    And(a=address[5],  b=address[4],  out=b5);
+    And(a=address[3],  b=address[2],  out=b6);
+    And(a=address[1],  b=address[0],  out=b7);
+    And(a=b1, b=b2, out=b8);
+    And(a=b3, b=b4, out=b9);
+    And(a=b5, b=b6, out=b10);
+    And(a=address[14], b=b7, out=b11);
+    And(a=b8, b=b9, out=b12);
+    And(a=b10, b=b11, out=b13);
+    And(a=b12, b=b13, out=kflag);
+    And(a=kflag, b=load, out=kload);
+    Not(in=kflag, out=nkflag);
+    And(a=nkflag, b=address[14], out=sflag);
+    And(a=sflag, b=load, out=sload);
+    Screen(in=in, load=sload, address=address[2..14], out=sout);
+    Keyboard(out=kout);
+
+    Mux4Way16(a=rout, b=false, c=sout, d=kout, sel[0]=kflag, sel[1]=address[14], out=out);
 }
