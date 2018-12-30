@@ -39,5 +39,35 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    // Put your code here:
+    /* 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0 */
+    /*  i  x  x  a  c  c  c  c  c  c  d  d  d  j  j  j */
+    /*             zx nx zy ny  f no  A  D  M  <  =  > */
+    And(a=instruction[15], b=instruction[3], out=writeM);
+
+    And(a=instruction[15], b=instruction[4], out=issaveD);
+    DRegister(in=outD, load=issaveD, out=xdata);
+
+    Mux16(a=instruction, b=outA, sel=instruction[15], out=inA);
+    And(a=instruction[15], b=instruction[5], out=issaveA);
+    Not(in=instruction[15], out=isorderA);
+    Or(a=issaveA, b=isorderA, out=isloadA);
+    ARegister(in=inA, load=isloadA, out=adata, out[0..14]=addressM, out=ajmp);
+
+    Mux16(a=adata, b=inM, sel=instruction[12], out=ydata);
+    ALU(x=xdata, y=ydata,
+        zx=instruction[11], nx=instruction[10],
+        zy=instruction[9], ny=instruction[8],
+        f=instruction[7], no=instruction[6],
+        out=outM, out=outD, out=outA,
+        zr=zero, ng=negate);
+
+    And(a=instruction[2], b=negate, out=fnega);
+    And(a=instruction[1], b=zero, out=fzero);
+    Or(a=zero, b=negate, out=ltoet);
+    Not(in=ltoet, out=posi);
+    And(a=instruction[0], b=posi, out=fpos);
+    Or(a=fnega, b=fzero, out=f1);
+    Or(a=f1, b=fpos, out=f2);
+    And(a=instruction[15], b=f2, out=fjmp);
+    PC(in=ajmp, reset=reset, load=fjmp, inc=true, out[0..14]=pc);
 }
