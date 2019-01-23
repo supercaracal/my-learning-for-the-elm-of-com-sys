@@ -12,7 +12,7 @@ endef
 
 build-all: bin build-assembler build-vm-translater
 
-build-assembler: bin bin/assembler  bin/assembler-debug
+build-assembler: bin bin/assembler bin/assembler-debug
 
 build-vm-translater: bin bin/vm-translater bin/vm-translater-debug
 
@@ -38,7 +38,7 @@ bin/vm-translater-debug: CPPFLAGS += -DDEBUG
 bin/vm-translater-debug: $(sources_of_vm_translater)
 	$(build-bin)
 
-assemble:
+assemble: bin bin/assembler
 	@for file in ${asm_files}; do\
 		echo "ASSEMBLE: $${file}" ;\
 		basename $$file | xargs -I{} sh -c 'bin/assembler $$1 > projects/06/actual/$${2%.*}.hack' -- $$file {};\
