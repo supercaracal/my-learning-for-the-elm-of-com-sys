@@ -8,7 +8,7 @@ define build-bin
   $(strip $(LINK.c)) $(OUTPUT_OPTION) $^
 endef
 
-.PHONY: assemble
+.PHONY: lint assemble
 
 build-all: bin build-assembler build-vm-translater
 
@@ -21,6 +21,9 @@ bin:
 
 clean: bin
 	@rm -rf $^
+
+lint:
+	@cpplint $(sources_of_assembler) $(sources_of_vm_translater)
 
 bin/assembler: $(sources_of_assembler)
 	$(build-bin)
