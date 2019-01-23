@@ -114,11 +114,11 @@ set_token(struct command *cmd, const char token[MAX_TOKEN_SIZE], const enum r_mo
       return ARG1;
     case ARG1:
       cmd->arg1 = token_alloc(strlen(token));
-      strcpy(cmd->arg1, token);
+      strcpy(cmd->arg1, token);  // NOLINT
       return ARG2;
     case ARG2:
       cmd->arg2 = token_alloc(strlen(token));
-      strcpy(cmd->arg2, token);
+      strcpy(cmd->arg2, token);  // NOLINT
       return COMMENT;
     default:
       return COMMENT;

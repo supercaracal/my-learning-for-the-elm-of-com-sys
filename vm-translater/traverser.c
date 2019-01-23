@@ -35,9 +35,9 @@ traverse(const char *root, struct path_list *pl) {
       break;
     }
 
-    strcpy(buf, root);
-    if (root[ulen - 1] != '/') strcat(buf, "/");
-    strcat(buf, e->d_name);
+    strcpy(buf, root);  // NOLINT
+    if (root[ulen - 1] != '/') strcat(buf, "/");  // NOLINT
+    strcat(buf, e->d_name);  // NOLINT
 
     switch (e->d_type) {
       case DT_DIR:

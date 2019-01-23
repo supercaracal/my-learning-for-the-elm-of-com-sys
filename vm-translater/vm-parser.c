@@ -103,14 +103,17 @@ asm_code_alloc(int size) {
 static char *
 conv_add(struct command *cmd, struct stack *stk) {
   char *buf;
+  int size;
   int value;
 
   value = stk_pop(stk);
   value += stk_pop(stk);
   stk_push(stk, value);
-  buf = asm_code_alloc(10 * 13);
-  sprintf(
+  size = 10 * 13;
+  buf = asm_code_alloc(size);
+  snprintf(
     buf,
+    size,
     "@SP"   "\n"
     "M=M-1" "\n"
     "A=M"   "\n"
@@ -219,10 +222,13 @@ conv_push_static(struct command *cmd, struct stack *stk) {
 static char *
 conv_push_constant(struct command *cmd, struct stack *stk) {
   char *buf;
+  int size;
 
-  buf = asm_code_alloc(10 * 7);
-  sprintf(
+  size = 10 * 7;
+  buf = asm_code_alloc(size);
+  snprintf(
     buf,
+    size,
     "@%s" "\n"
     "D=A" "\n"
     "@SP" "\n"
