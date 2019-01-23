@@ -1,5 +1,5 @@
-#ifndef PROJECTS_07_DATA_TYPES_H_
-#define PROJECTS_07_DATA_TYPES_H_
+#ifndef VM_TRANSLATER_DATA_TYPES_H_
+#define VM_TRANSLATER_DATA_TYPES_H_
 
 struct path_list {
   char **paths;
@@ -33,7 +33,7 @@ struct cmd_list {
 
 struct stack {
   int **array;
-  int sp; // the stack pointer
+  int sp;  // the stack pointer
 };
 
-#endif // PROJECTS_07_DATA_TYPES_H_
+#endif  // VM_TRANSLATER_DATA_TYPES_H_

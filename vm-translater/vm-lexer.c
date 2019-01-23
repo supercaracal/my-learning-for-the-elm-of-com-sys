@@ -13,8 +13,7 @@ static void cl_alloc(struct cmd_list *cl);
 static void cl_add(struct cmd_list *cl, struct command *cmd);
 
 void
-lex_vm_files(struct vm_list *vl, struct cmd_list *cl)
-{
+lex_vm_files(struct vm_list *vl, struct cmd_list *cl) {
   int i;
 
   for (i = 0; i < vl->idx; ++i) {
@@ -23,8 +22,7 @@ lex_vm_files(struct vm_list *vl, struct cmd_list *cl)
 }
 
 void
-cl_free(struct cmd_list *cl)
-{
+cl_free(struct cmd_list *cl) {
   int i;
 
   for (i = 0; i < cl->idx; ++i) {
@@ -39,8 +37,7 @@ cl_free(struct cmd_list *cl)
 }
 
 static void
-lex_vm_file(const char *buf, struct cmd_list *cl)
-{
+lex_vm_file(const char *buf, struct cmd_list *cl) {
   int i;
   int j;
   int k;
@@ -86,8 +83,7 @@ lex_vm_file(const char *buf, struct cmd_list *cl)
 }
 
 static enum r_mode
-set_token(struct command *cmd, const char token[MAX_TOKEN_SIZE], const enum r_mode mode)
-{
+set_token(struct command *cmd, const char token[MAX_TOKEN_SIZE], const enum r_mode mode) {
   switch (mode) {
     case COMMAND:
       if (strcmp(token, "add") == 0) {
@@ -130,18 +126,16 @@ set_token(struct command *cmd, const char token[MAX_TOKEN_SIZE], const enum r_mo
 }
 
 static char *
-token_alloc(int size)
-{
+token_alloc(int size) {
   char *p;
 
-  p = (char *) malloc(size + 1); // increment for null terminater
+  p = (char *) malloc(size + 1);  // increment for null terminater
   if (p == NULL) fprintf(stderr, "Could not allocate memory for a token\n");
   return p;
 }
 
 static struct command *
-cmd_alloc(void)
-{
+cmd_alloc(void) {
   struct command *cmd;
 
   cmd = (struct command *) malloc(sizeof(struct command));
@@ -158,8 +152,7 @@ cmd_alloc(void)
 }
 
 static void
-cl_alloc(struct cmd_list *cl)
-{
+cl_alloc(struct cmd_list *cl) {
   struct command **p;
 
   if (cl->cmds == NULL) {
@@ -179,8 +172,7 @@ cl_alloc(struct cmd_list *cl)
 }
 
 static void
-cl_add(struct cmd_list *cl, struct command *cmd)
-{
+cl_add(struct cmd_list *cl, struct command *cmd) {
   cl_alloc(cl);
   cl->cmds[cl->idx++] = cmd;
 }

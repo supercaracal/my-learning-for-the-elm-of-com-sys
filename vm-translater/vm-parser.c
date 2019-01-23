@@ -32,8 +32,7 @@ static char *conv_pop_pointer(struct command *cmd, struct stack *stk);
 static char *conv_pop_temp(struct command *cmd, struct stack *stk);
 
 char *
-parse_vm_command(struct command *cmd, struct stack *stk)
-{
+parse_vm_command(struct command *cmd, struct stack *stk) {
   switch (cmd->type) {
     case ADD:
       return conv_add(cmd, stk);
@@ -63,8 +62,7 @@ parse_vm_command(struct command *cmd, struct stack *stk)
 }
 
 char *
-stringify_command(enum cmd_type type)
-{
+stringify_command(enum cmd_type type) {
   switch (type) {
     case ADD:
       return "add";
@@ -94,8 +92,7 @@ stringify_command(enum cmd_type type)
 }
 
 static char *
-asm_code_alloc(int size)
-{
+asm_code_alloc(int size) {
   char *buf;
 
   buf = (char *) malloc(size);
@@ -104,8 +101,7 @@ asm_code_alloc(int size)
 }
 
 static char *
-conv_add(struct command *cmd, struct stack *stk)
-{
+conv_add(struct command *cmd, struct stack *stk) {
   char *buf;
   int value;
 
@@ -127,70 +123,60 @@ conv_add(struct command *cmd, struct stack *stk)
     "A=M"   "\n"
     "M=D"   "\n"
     "@SP"   "\n"
-    "M=M+1"
-  );
+    "M=M+1");
   return buf;
 }
 
 static char *
-conv_sub(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_sub(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_neg(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_neg(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_eq(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_eq(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_gt(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_gt(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_lt(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_lt(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_and(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_and(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_or(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_or(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_not(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_not(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_push(struct command *cmd, struct stack *stk)
-{
+conv_push(struct command *cmd, struct stack *stk) {
   if (strcmp(cmd->arg1, "argument") == 0) {
     return conv_push_argument(cmd, stk);
   } else if (strcmp(cmd->arg1, "local") == 0) {
@@ -213,29 +199,25 @@ conv_push(struct command *cmd, struct stack *stk)
 }
 
 static char *
-conv_push_argument(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_push_argument(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_push_local(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_push_local(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_push_static(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_push_static(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_push_constant(struct command *cmd, struct stack *stk)
-{
+conv_push_constant(struct command *cmd, struct stack *stk) {
   char *buf;
 
   buf = asm_code_alloc(10 * 7);
@@ -248,43 +230,37 @@ conv_push_constant(struct command *cmd, struct stack *stk)
     "M=D" "\n"
     "@SP" "\n"
     "M=M+1",
-    cmd->arg2
-  );
+    cmd->arg2);
   stk_push(stk, atoi(cmd->arg2));
   return buf;
 }
 
 static char *
-conv_push_this(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_push_this(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_push_that(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_push_that(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_push_pointer(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_push_pointer(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_push_temp(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_push_temp(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_pop(struct command *cmd, struct stack *stk)
-{
+conv_pop(struct command *cmd, struct stack *stk) {
   if (strcmp(cmd->arg1, "argument") == 0) {
     return conv_pop_argument(cmd, stk);
   } else if (strcmp(cmd->arg1, "local") == 0) {
@@ -307,57 +283,49 @@ conv_pop(struct command *cmd, struct stack *stk)
 }
 
 static char *
-conv_pop_argument(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_pop_argument(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_pop_local(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_pop_local(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_pop_static(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_pop_static(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_pop_constant(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_pop_constant(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_pop_this(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_pop_this(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_pop_that(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_pop_that(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_pop_pointer(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_pop_pointer(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }
 
 static char *
-conv_pop_temp(struct command *cmd, struct stack *stk)
-{
-  // TODO: impl
+conv_pop_temp(struct command *cmd, struct stack *stk) {
+  // TODO(T.K): impl
   return "Not implemented yet.";
 }

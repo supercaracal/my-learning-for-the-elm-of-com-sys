@@ -9,8 +9,7 @@ static void
 pl_add(struct path_list *pl, char *buf);
 
 void
-traverse(const char *root, struct path_list *pl)
-{
+traverse(const char *root, struct path_list *pl) {
   DIR *d;
   struct dirent *e;
   int ulen;
@@ -30,7 +29,7 @@ traverse(const char *root, struct path_list *pl)
     tlen = ulen + strlen(e->d_name);
     if (root[ulen - 1] != '/') ++tlen;
 
-    buf = (char *) malloc(++tlen); // inclement for null terminator
+    buf = (char *) malloc(++tlen);  // inclement for null terminator
     if (buf == NULL) {
       fprintf(stderr, "Could not allocate memory for traversing path.\n");
       break;
@@ -55,8 +54,7 @@ traverse(const char *root, struct path_list *pl)
 }
 
 static void
-pl_alloc(struct path_list *pl)
-{
+pl_alloc(struct path_list *pl) {
   char **p;
 
   if (pl->paths == NULL) {
@@ -76,8 +74,7 @@ pl_alloc(struct path_list *pl)
 }
 
 static void
-pl_add(struct path_list *pl, char *buf)
-{
+pl_add(struct path_list *pl, char *buf) {
   pl_alloc(pl);
   pl->paths[pl->idx++] = buf;
 }

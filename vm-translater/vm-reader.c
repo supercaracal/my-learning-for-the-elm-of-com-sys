@@ -7,8 +7,7 @@ static void vl_add(struct vm_list *vl, char *buf);
 static int is_vm_file(const char *path);
 
 void
-read_vm_files(const char *path, struct vm_list *vl)
-{
+read_vm_files(const char *path, struct vm_list *vl) {
   struct stat statbuf;
   struct path_list pl = { NULL, 0, 0 };
   int i;
@@ -34,8 +33,7 @@ read_vm_files(const char *path, struct vm_list *vl)
 }
 
 void
-vl_free(struct vm_list *vl)
-{
+vl_free(struct vm_list *vl) {
   int i;
 
   for (i = 0; i < vl->idx; ++i) {
@@ -48,8 +46,7 @@ vl_free(struct vm_list *vl)
 }
 
 static void
-vl_alloc(struct vm_list *vl)
-{
+vl_alloc(struct vm_list *vl) {
   char **p;
 
   if (vl->bufs == NULL) {
@@ -69,15 +66,13 @@ vl_alloc(struct vm_list *vl)
 }
 
 static void
-vl_add(struct vm_list *vl, char *buf)
-{
+vl_add(struct vm_list *vl, char *buf) {
   vl_alloc(vl);
   vl->bufs[vl->idx++] = buf;
 }
 
 static int
-is_vm_file(const char *path)
-{
+is_vm_file(const char *path) {
   int len;
 
   len = strlen(path);

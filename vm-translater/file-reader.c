@@ -3,8 +3,7 @@
 static int calc_file_size(FILE *fp);
 
 char *
-read_file(const char *path)
-{
+read_file(const char *path) {
   FILE *fp;
   int size;
   char *buf;
@@ -32,8 +31,7 @@ read_file(const char *path)
 }
 
 static int
-calc_file_size(FILE *fp)
-{
+calc_file_size(FILE *fp) {
   int size;
 
   fseek(fp, 0, SEEK_END);

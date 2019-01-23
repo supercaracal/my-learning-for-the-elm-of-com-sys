@@ -1,5 +1,5 @@
-#ifndef PROJECTS_07_VM_TRANSLATER_H_
-#define PROJECTS_07_VM_TRANSLATER_H_
+#ifndef VM_TRANSLATER_VM_TRANSLATER_H_
+#define VM_TRANSLATER_VM_TRANSLATER_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,4 +9,4 @@
 #include "vm-parser.h"
 #include "vm-stack.h"
 
-#endif // PROJECTS_07_VM_TRANSLATER_H_
+#endif  // VM_TRANSLATER_VM_TRANSLATER_H_

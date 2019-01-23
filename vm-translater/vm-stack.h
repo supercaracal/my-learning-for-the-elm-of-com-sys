@@ -1,5 +1,5 @@
-#ifndef PROJECTS_07_VM_STACK_H_
-#define PROJECTS_07_VM_STACK_H_
+#ifndef VM_TRANSLATER_VM_STACK_H_
+#define VM_TRANSLATER_VM_STACK_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,4 +10,4 @@ void stk_free(struct stack *stk);
 void stk_push(struct stack *stk, int value);
 int stk_pop(struct stack *stk);
 
-#endif // PROJECTS_07_VM_STACK_H_
+#endif  // VM_TRANSLATER_VM_STACK_H_

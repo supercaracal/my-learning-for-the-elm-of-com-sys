@@ -1,8 +1,7 @@
 #include "vm-translater.h"
 
 int
-main(int argc, char *argv[])
-{
+main(int argc, char *argv[]) {
   struct vm_list vl = { NULL, 0, 0 };
   struct cmd_list cl = { NULL, 0, 0 };
   struct stack *stk;

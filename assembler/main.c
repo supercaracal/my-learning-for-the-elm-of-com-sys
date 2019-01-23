@@ -26,8 +26,7 @@ struct sym_tbl {
 };
 
 static int
-calc_file_size(FILE *fp)
-{
+calc_file_size(FILE *fp) {
   int size;
 
   fseek(fp, 0, SEEK_END);
@@ -38,8 +37,7 @@ calc_file_size(FILE *fp)
 }
 
 static char
-filter_code(char p, char c, char n, enum mode *m)
-{
+filter_code(char p, char c, char n, enum mode *m) {
   char r;
 
   r = '\0';
@@ -67,8 +65,7 @@ filter_code(char p, char c, char n, enum mode *m)
 }
 
 static int
-strip_code(char *buf, int size)
-{
+strip_code(char *buf, int size) {
   enum mode m;
   int i;
   int j;
@@ -111,8 +108,7 @@ strip_code(char *buf, int size)
 }
 
 static int
-count_orders(char *buf, int size)
-{
+count_orders(char *buf, int size) {
   int i;
   int n;
 
@@ -124,8 +120,7 @@ count_orders(char *buf, int size)
 }
 
 static void
-st_alloc(struct sym_tbl *st)
-{
+st_alloc(struct sym_tbl *st) {
   int i;
   struct symbol **p;
 
@@ -155,8 +150,7 @@ st_alloc(struct sym_tbl *st)
 }
 
 static void
-st_free(struct sym_tbl *st)
-{
+st_free(struct sym_tbl *st) {
   int i;
 
   for (i = 0; i < st->size; ++i) {
@@ -169,8 +163,7 @@ st_free(struct sym_tbl *st)
 }
 
 static int
-st_get(struct sym_tbl *st, char *name)
-{
+st_get(struct sym_tbl *st, char *name) {
   int i;
   int addr;
 
@@ -186,8 +179,7 @@ st_get(struct sym_tbl *st, char *name)
 }
 
 static void
-st_add(struct sym_tbl *st, char *name, int addr)
-{
+st_add(struct sym_tbl *st, char *name, int addr) {
   int n;
 
   st_alloc(st);
@@ -200,8 +192,7 @@ st_add(struct sym_tbl *st, char *name, int addr)
 }
 
 static void
-st_vadd(struct sym_tbl *st, char *name)
-{
+st_vadd(struct sym_tbl *st, char *name) {
   int n;
 
   st_alloc(st);
@@ -214,8 +205,7 @@ st_vadd(struct sym_tbl *st, char *name)
 }
 
 static void
-st_print(struct sym_tbl *st)
-{
+st_print(struct sym_tbl *st) {
   int i;
 
 #ifdef DEBUG
@@ -229,13 +219,12 @@ st_print(struct sym_tbl *st)
 }
 
 static void
-parse_a_order(char *mnemonic, int size, char word[WORD_SIZE], struct sym_tbl *st)
-{
+parse_a_order(char *mnemonic, int size, char word[WORD_SIZE], struct sym_tbl *st) {
   int i;
   int num;
   char *name;
 
-  ++mnemonic; // skip `@`
+  ++mnemonic;  // skip `@`
 
   if (*mnemonic >= '0' && *mnemonic <= '9') {
     num = (int) strtol(mnemonic, NULL, 10);
@@ -254,8 +243,7 @@ parse_a_order(char *mnemonic, int size, char word[WORD_SIZE], struct sym_tbl *st
 }
 
 static void
-parse_label(char *mnemonic, int size, int dest_addr, struct sym_tbl *st)
-{
+parse_label(char *mnemonic, int size, int dest_addr, struct sym_tbl *st) {
   char *name;
 
   name = (char *) malloc(size - 1);
@@ -265,8 +253,7 @@ parse_label(char *mnemonic, int size, int dest_addr, struct sym_tbl *st)
 }
 
 static void
-parse_computation(char comp[3], char word[WORD_SIZE])
-{
+parse_computation(char comp[3], char word[WORD_SIZE]) {
   if (strcmp(comp, "0") == 0) {
     word[3] = '0'; word[4] = '1'; word[5] = '0'; word[6] = '1'; word[7] = '0'; word[8] = '1'; word[9] = '0';
   } else if (strcmp(comp, "1") == 0) {
@@ -327,16 +314,14 @@ parse_computation(char comp[3], char word[WORD_SIZE])
 }
 
 static void
-parse_destination(char dest[3], char word[WORD_SIZE])
-{
+parse_destination(char dest[3], char word[WORD_SIZE]) {
   if (dest[0] == 'A' || dest[1] == 'A' || dest[2] == 'A') word[10] = '1';
   if (dest[0] == 'D' || dest[1] == 'D' || dest[2] == 'D') word[11] = '1';
   if (dest[0] == 'M' || dest[1] == 'M' || dest[2] == 'M') word[12] = '1';
 }
 
 static void
-parse_jump(char jump[3], char word[WORD_SIZE])
-{
+parse_jump(char jump[3], char word[WORD_SIZE]) {
   if (strcmp(jump, "JGT") == 0) {
     word[13] = '0'; word[14] = '0'; word[15] = '1';
   } else if (strcmp(jump, "JEQ") == 0) {
@@ -355,8 +340,7 @@ parse_jump(char jump[3], char word[WORD_SIZE])
 }
 
 static void
-parse_c_order(char *mnemonic, int size, char word[WORD_SIZE])
-{
+parse_c_order(char *mnemonic, int size, char word[WORD_SIZE]) {
   char dest[3] = { '\0', '\0', '\0' };
   char comp[3] = { '\0', '\0', '\0' };
   char jump[3] = { '\0', '\0', '\0' };
@@ -391,8 +375,7 @@ parse_c_order(char *mnemonic, int size, char word[WORD_SIZE])
 }
 
 static int
-parse_code(char *buf, int size, char *bin, struct sym_tbl *st)
-{
+parse_code(char *buf, int size, char *bin, struct sym_tbl *st) {
   int i;
   int j;
   int k;
@@ -404,7 +387,7 @@ parse_code(char *buf, int size, char *bin, struct sym_tbl *st)
     if (buf[first] == '(') {
       parse_label(&buf[first], i - first, j, st);
     } else {
-      ++j; // count order
+      ++j;  // count order
     }
     first = i + 1;
   }
@@ -433,8 +416,7 @@ parse_code(char *buf, int size, char *bin, struct sym_tbl *st)
 }
 
 static void
-add_reserved_symbols(struct sym_tbl *st)
-{
+add_reserved_symbols(struct sym_tbl *st) {
   int i;
   int j;
   int length;
@@ -457,8 +439,7 @@ add_reserved_symbols(struct sym_tbl *st)
 }
 
 int
-main(int argc, char *argv[])
-{
+main(int argc, char *argv[]) {
   FILE *fp;
   char *buf;
   char *bin;

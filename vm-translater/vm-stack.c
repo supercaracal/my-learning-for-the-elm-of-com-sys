@@ -3,8 +3,7 @@
 #define STACK_SIZE 1792
 
 struct stack *
-stk_alloc(void)
-{
+stk_alloc(void) {
   struct stack *stk;
   int i;
 
@@ -34,8 +33,7 @@ stk_alloc(void)
 }
 
 void
-stk_free(struct stack *stk)
-{
+stk_free(struct stack *stk) {
   int i;
 
   for (i = 0; i < stk->sp; ++i) free(stk->array[i]);
@@ -43,8 +41,7 @@ stk_free(struct stack *stk)
 }
 
 void
-stk_push(struct stack *stk, int value)
-{
+stk_push(struct stack *stk, int value) {
   if (stk->sp >= STACK_SIZE) {
     fprintf(stderr, "The vm stack is full. %d was given.\n", value);
   } else {
@@ -54,8 +51,7 @@ stk_push(struct stack *stk, int value)
 }
 
 int
-stk_pop(struct stack *stk)
-{
+stk_pop(struct stack *stk) {
   int value;
 
   if (stk->sp == 0) {

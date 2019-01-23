@@ -1,5 +1,5 @@
-#ifndef PROJECTS_07_VM_READER_H_
-#define PROJECTS_07_VM_READER_H_
+#ifndef VM_TRANSLATER_VM_READER_H_
+#define VM_TRANSLATER_VM_READER_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,4 +13,4 @@
 void read_vm_files(const char *path, struct vm_list *vl);
 void vl_free(struct vm_list *vl);
 
-#endif // PROJECTS_07_VM_READER_H_
+#endif  // VM_TRANSLATER_VM_READER_H_
