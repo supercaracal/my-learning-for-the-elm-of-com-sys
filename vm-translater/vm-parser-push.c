@@ -28,26 +28,26 @@ conv_push(const struct command *cmd) {
   } else if (strcmp(cmd->arg1, "temp") == 0) {
     return conv_push_temp(cmd);
   } else {
-    return "Unknown segment";
+    return "// [ERROR] unknown segment detected";
   }
 }
 
 static char *
 conv_push_argument(const struct command *cmd) {
   // TODO(T.K): impl
-  return "Not implemented yet.";
+  return "// Not implemented yet.";
 }
 
 static char *
 conv_push_local(const struct command *cmd) {
   // TODO(T.K): impl
-  return "Not implemented yet.";
+  return "// Not implemented yet.";
 }
 
 static char *
 conv_push_static(const struct command *cmd) {
   // TODO(T.K): impl
-  return "Not implemented yet.";
+  return "// Not implemented yet.";
 }
 
 static char *
@@ -70,23 +70,23 @@ conv_push_constant(const struct command *cmd) {
 static char *
 conv_push_this(const struct command *cmd) {
   // TODO(T.K): impl
-  return "Not implemented yet.";
+  return "// Not implemented yet.";
 }
 
 static char *
 conv_push_that(const struct command *cmd) {
   // TODO(T.K): impl
-  return "Not implemented yet.";
+  return "// Not implemented yet.";
 }
 
 static char *
 conv_push_pointer(const struct command *cmd) {
   // TODO(T.K): impl
-  return "Not implemented yet.";
+  return "// Not implemented yet.";
 }
 
 static char *
 conv_push_temp(const struct command *cmd) {
   // TODO(T.K): impl
-  return "Not implemented yet.";
+  return "// Not implemented yet.";
 }

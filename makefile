@@ -4,12 +4,13 @@ sources_of_assembler := assembler/*.c
 sources_of_vm_translater := vm-translater/*.h vm-translater/*.c
 asm_files := $(shell find projects/06/ -type f -name *.asm)
 hack_dir := projects/06/actual
+vm_files := $(shell find projects/07/ -type f -name *.vm)
 
 define build-bin
   $(strip $(LINK.c)) $(OUTPUT_OPTION) $^
 endef
 
-.PHONY: lint assemble
+.PHONY: lint assemble vm-translate
 
 build-all: bin build-assembler build-vm-translater
 
@@ -48,4 +49,11 @@ assemble: bin bin/assembler
 		output="$(hack_dir)/$$(basename -s .asm $${input}).hack";\
 		echo "ASSEMBLE: $${input} > $${output}";\
 		bin/assembler "$${input}" > "$${output}";\
+	done
+
+vm-translate: bin bin/vm-translater
+	@for input in ${vm_files}; do\
+		output="$${input%.*}.asm";\
+		echo "VM-TRANSLATE: $${input} > $${output}";\
+		bin/vm-translater "$${input}" > "$${output}";\
 	done
