@@ -19,9 +19,9 @@ D=M
 @SP
 M=M-1
 A=M
-D=D+M
-@SP
-A=M
-M=D
+M=D+M
 @SP
 M=M+1
+(LABEL0)
+@LABEL0
+0;JMP

@@ -2,7 +2,8 @@ CC := gcc
 CFLAGS += -Wall
 sources_of_assembler := assembler/*.c
 sources_of_vm_translater := vm-translater/*.h vm-translater/*.c
-asm_files := $(shell find ./projects/06/ -type f -name *.asm)
+asm_files := $(shell find projects/06/ -type f -name *.asm)
+hack_dir := projects/06/actual
 
 define build-bin
   $(strip $(LINK.c)) $(OUTPUT_OPTION) $^
@@ -42,7 +43,9 @@ bin/vm-translater-debug: $(sources_of_vm_translater)
 	$(build-bin)
 
 assemble: bin bin/assembler
-	@for file in ${asm_files}; do\
-		echo "ASSEMBLE: $${file}" ;\
-		basename $$file | xargs -I{} sh -c 'bin/assembler $$1 > projects/06/actual/$${2%.*}.hack' -- $$file {};\
+	@mkdir -p $(hack_dir)
+	@for input in ${asm_files}; do\
+		output="$(hack_dir)/$$(basename -s .asm $${input}).hack";\
+		echo "ASSEMBLE: $${input} > $${output}";\
+		bin/assembler "$${input}" > "$${output}";\
 	done

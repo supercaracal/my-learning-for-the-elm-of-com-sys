@@ -31,9 +31,9 @@ struct cmd_list {
   int idx;
 };
 
-struct stack {
-  int **array;
-  int sp;  // the stack pointer
+struct label {
+  char *prefix;
+  int i;
 };
 
 #endif  // VM_TRANSLATER_DATA_TYPES_H_

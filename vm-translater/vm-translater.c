@@ -4,7 +4,7 @@ int
 main(int argc, char *argv[]) {
   struct vm_list vl = { NULL, 0, 0 };
   struct cmd_list cl = { NULL, 0, 0 };
-  struct stack *stk;
+  struct label lbl = { "LABEL", 0 };
   int i;
   char *buf;
 
@@ -18,7 +18,6 @@ main(int argc, char *argv[]) {
   lex_vm_files(&vl, &cl);
   vl_free(&vl);
 
-  stk = stk_alloc();
   for (i = 0; i < cl.idx; ++i) {
 #ifdef DEBUG
     buf = stringify_command(cl.cmds[i]->type);
@@ -26,11 +25,11 @@ main(int argc, char *argv[]) {
     fprintf(stdout, "%-16s%-16s%-16s\n", buf, cl.cmds[i]->arg1, cl.cmds[i]->arg2);
     fprintf(stdout, "------------------------------------------------\n");
 #endif
-    buf = parse_vm_command(cl.cmds[i], stk);
+    buf = parse_vm_command(cl.cmds[i], &lbl);
     fprintf(stdout, "%s\n", buf);
   }
   cl_free(&cl);
-  stk_free(stk);
+  fprintf(stdout, "%s\n", build_finish_command(&lbl));
 
   exit(0);
 }

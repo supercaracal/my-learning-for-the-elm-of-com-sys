@@ -5,9 +5,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include "data_types.h"
-#include "vm-stack.h"
+#include "vm-parser-common.h"
+#include "vm-parser-push.h"
+#include "vm-parser-pop.h"
+#include "vm-label.h"
 
-char *parse_vm_command(struct command *cmd, struct stack *stk);
+char *parse_vm_command(const struct command *cmd, struct label *lbl);
 char *stringify_command(enum cmd_type type);
+char *build_finish_command(struct label *lbl);
 
 #endif  // VM_TRANSLATER_VM_PARSER_H_

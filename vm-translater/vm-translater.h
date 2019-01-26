@@ -7,6 +7,5 @@
 #include "vm-reader.h"
 #include "vm-lexer.h"
 #include "vm-parser.h"
-#include "vm-stack.h"
 
 #endif  // VM_TRANSLATER_VM_TRANSLATER_H_

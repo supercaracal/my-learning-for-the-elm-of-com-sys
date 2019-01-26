@@ -2,11 +2,8 @@
 
 #define MIN_PATH_LIST_SIZE 16
 
-static void
-pl_alloc(struct path_list *pl);
-
-static void
-pl_add(struct path_list *pl, char *buf);
+static void pl_alloc(struct path_list *pl);
+static void pl_add(struct path_list *pl, char *buf);
 
 void
 traverse(const char *root, struct path_list *pl) {
