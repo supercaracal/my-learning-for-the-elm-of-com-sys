@@ -2,8 +2,7 @@
 
 static char *conv_push_static(const struct command *cmd);
 static char *conv_push_constant(const struct command *cmd);
-static char *conv_push_pointer(const struct command *cmd);
-static char *conv_push_temp(const struct command *cmd);
+static char *conv_push_fixed_seg(const struct command *cmd, int base);
 static char *conv_push_seg(const struct command *cmd, const char *seg);
 
 char *
@@ -21,9 +20,9 @@ conv_push(const struct command *cmd) {
   } else if (strcmp(cmd->arg1, "that") == 0) {
     return conv_push_seg(cmd, "THAT");
   } else if (strcmp(cmd->arg1, "pointer") == 0) {
-    return conv_push_pointer(cmd);
+    return conv_push_fixed_seg(cmd, 3);
   } else if (strcmp(cmd->arg1, "temp") == 0) {
-    return conv_push_temp(cmd);
+    return conv_push_fixed_seg(cmd, 5);
   } else {
     return "// [ERROR] unknown segment detected at push";
   }
@@ -53,13 +52,7 @@ conv_push_constant(const struct command *cmd) {
 }
 
 static char *
-conv_push_pointer(const struct command *cmd) {
-  // TODO(T.K): impl
-  return "// Not implemented yet.";
-}
-
-static char *
-conv_push_temp(const struct command *cmd) {
+conv_push_fixed_seg(const struct command *cmd, int base) {
   int size;
   char *buf;
 
@@ -68,13 +61,13 @@ conv_push_temp(const struct command *cmd) {
   snprintf(buf, size,
     "@%s"   "\n"
     "D=A"   "\n"
-    "@5"    "\n"
+    "@%d"   "\n"
     "A=D+A" "\n"
     "D=M"   "\n"
     "@SP"   "\n"
     "A=M"   "\n"
     "M=D"
-    STK_FW_SP, cmd->arg2);
+    STK_FW_SP, cmd->arg2, base);
   return buf;
 }
 

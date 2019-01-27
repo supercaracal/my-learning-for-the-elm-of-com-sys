@@ -1,8 +1,7 @@
 #include "vm-parser-pop.h"
 
 static char *conv_pop_static(const struct command *cmd);
-static char *conv_pop_pointer(const struct command *cmd);
-static char *conv_pop_temp(const struct command *cmd);
+static char *conv_pop_fixed_seg(const struct command *cmd, int base);
 static char *conv_pop_seg(const struct command *cmd, const char *seg);
 
 char *
@@ -18,9 +17,9 @@ conv_pop(const struct command *cmd) {
   } else if (strcmp(cmd->arg1, "that") == 0) {
     return conv_pop_seg(cmd, "THAT");
   } else if (strcmp(cmd->arg1, "pointer") == 0) {
-    return conv_pop_pointer(cmd);
+    return conv_pop_fixed_seg(cmd, 3);
   } else if (strcmp(cmd->arg1, "temp") == 0) {
-    return conv_pop_temp(cmd);
+    return conv_pop_fixed_seg(cmd, 5);
   } else {
     return "// [ERROR] unknown segment detected at pop";
   }
@@ -33,17 +32,11 @@ conv_pop_static(const struct command *cmd) {
 }
 
 static char *
-conv_pop_pointer(const struct command *cmd) {
-  // TODO(T.K): impl
-  return "// Not implemented yet.";
-}
-
-static char *
-conv_pop_temp(const struct command *cmd) {
+conv_pop_fixed_seg(const struct command *cmd, int base) {
   int size;
   char *buf;
 
-  size = 10 * 19;
+  size = 10 * 18;
   buf = asm_code_alloc(size);
   snprintf(buf, size,
     STK_POP
@@ -53,7 +46,7 @@ conv_pop_temp(const struct command *cmd) {
 
     "@%s"   "\n"
     "D=A"   "\n"
-    "@5"    "\n"
+    "@%d"   "\n"
     "A=D+A" "\n"
     "D=A"   "\n"
     "@14"   "\n"
@@ -63,7 +56,7 @@ conv_pop_temp(const struct command *cmd) {
     "D=M"   "\n"
     "@14"   "\n"
     "A=M"   "\n"
-    "M=D", cmd->arg2);
+    "M=D", cmd->arg2, base);
   return buf;
 }
 
