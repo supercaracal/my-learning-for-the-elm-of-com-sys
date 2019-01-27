@@ -5,10 +5,10 @@
 
 enum r_mode { COMMAND, ARG1, ARG2, COMMENT };
 
-static void lex_vm_file(const char *buf, struct cmd_list *cl);
+static void lex_vm_file(const char *buf, struct cmd_list *cl, int fid);
 static enum r_mode set_token(struct command *cmd, const char token[MAX_TOKEN_SIZE], const enum r_mode mode);
 static char *token_alloc(int size);
-static struct command *cmd_alloc(void);
+static struct command *cmd_alloc(int fid);
 static void cl_alloc(struct cmd_list *cl);
 static void cl_add(struct cmd_list *cl, struct command *cmd);
 
@@ -17,7 +17,7 @@ lex_vm_files(struct vm_list *vl, struct cmd_list *cl) {
   int i;
 
   for (i = 0; i < vl->idx; ++i) {
-    lex_vm_file(vl->bufs[i], cl);
+    lex_vm_file(vl->bufs[i], cl, i);
   }
 }
 
@@ -37,7 +37,7 @@ cl_free(struct cmd_list *cl) {
 }
 
 static void
-lex_vm_file(const char *buf, struct cmd_list *cl) {
+lex_vm_file(const char *buf, struct cmd_list *cl, int fid) {
   int i;
   int j;
   int k;
@@ -71,7 +71,7 @@ lex_vm_file(const char *buf, struct cmd_list *cl) {
         if (mode == COMMENT) break;
         if (init) {
           for (k = 0; k < MAX_TOKEN_SIZE; ++k) token[k] = '\0';
-          if (mode == COMMAND) cmd = cmd_alloc();
+          if (mode == COMMAND) cmd = cmd_alloc(fid);
           j = 0;
           init = 0;
         }
@@ -135,7 +135,7 @@ token_alloc(int size) {
 }
 
 static struct command *
-cmd_alloc(void) {
+cmd_alloc(int fid) {
   struct command *cmd;
 
   cmd = (struct command *) malloc(sizeof(struct command));
@@ -147,6 +147,7 @@ cmd_alloc(void) {
   cmd->type = UNKNOWN;
   cmd->arg1 = NULL;
   cmd->arg2 = NULL;
+  cmd->fid = fid;
 
   return cmd;
 }

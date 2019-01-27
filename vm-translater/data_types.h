@@ -23,6 +23,7 @@ struct command {
   enum cmd_type type;
   char *arg1;
   char *arg2;
+  int fid;  // vm file id
 };
 
 struct cmd_list {

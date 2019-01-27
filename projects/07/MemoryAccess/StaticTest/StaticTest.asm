@@ -19,11 +19,38 @@ A=M
 M=D
 @SP
 M=M+1
-// Not implemented yet.
-// Not implemented yet.
-// Not implemented yet.
-// Not implemented yet.
-// Not implemented yet.
+@SP
+M=M-1
+A=M
+D=M
+@STATIC0.8
+M=D
+@SP
+M=M-1
+A=M
+D=M
+@STATIC0.3
+M=D
+@SP
+M=M-1
+A=M
+D=M
+@STATIC0.1
+M=D
+@STATIC0.3
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@STATIC0.1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
 @SP
 M=M-1
 A=M
@@ -34,7 +61,13 @@ A=M
 M=M-D
 @SP
 M=M+1
-// Not implemented yet.
+@STATIC0.8
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
 @SP
 M=M-1
 A=M

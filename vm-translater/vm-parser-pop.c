@@ -7,28 +7,37 @@ static char *conv_pop_seg(const struct command *cmd, const char *seg);
 char *
 conv_pop(const struct command *cmd) {
   if (strcmp(cmd->arg1, "argument") == 0) {
-    return conv_pop_seg(cmd, "ARG");
+    return conv_pop_seg(cmd, SEG_ARG_REG_NAME);
   } else if (strcmp(cmd->arg1, "local") == 0) {
-    return conv_pop_seg(cmd, "LCL");
+    return conv_pop_seg(cmd, SEG_LCL_REG_NAME);
   } else if (strcmp(cmd->arg1, "static") == 0) {
     return conv_pop_static(cmd);
   } else if (strcmp(cmd->arg1, "this") == 0) {
-    return conv_pop_seg(cmd, "THIS");
+    return conv_pop_seg(cmd, SEG_THIS_REG_NAME);
   } else if (strcmp(cmd->arg1, "that") == 0) {
-    return conv_pop_seg(cmd, "THAT");
+    return conv_pop_seg(cmd, SEG_THAT_REG_NAME);
   } else if (strcmp(cmd->arg1, "pointer") == 0) {
-    return conv_pop_fixed_seg(cmd, 3);
+    return conv_pop_fixed_seg(cmd, SEG_PTR_RAM_BASE);
   } else if (strcmp(cmd->arg1, "temp") == 0) {
-    return conv_pop_fixed_seg(cmd, 5);
+    return conv_pop_fixed_seg(cmd, SEG_TMP_RAM_BASE);
   } else {
-    return "// [ERROR] unknown segment detected at pop";
+    return "// [ERROR] Unknown segment was detected with pop.";
   }
 }
 
 static char *
 conv_pop_static(const struct command *cmd) {
-  // TODO(T.K): impl
-  return "// Not implemented yet.";
+  int size;
+  char *buf;
+
+  size = 10 * 10;
+  buf = asm_code_alloc(size);
+  snprintf(buf, size,
+    STK_POP
+    "D=M"      "\n"
+    "@%s%d.%s" "\n"
+    "M=D", SEG_STATIC_LABEL_PREFIX, cmd->fid, cmd->arg2);
+  return buf;
 }
 
 static char *
