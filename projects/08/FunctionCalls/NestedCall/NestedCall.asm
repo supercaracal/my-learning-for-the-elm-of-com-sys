@@ -1,4 +1,11 @@
 // [ERROR] unknown command detected
+@4000
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
 @SP
 M=M-1
 A=M
@@ -61,7 +68,7 @@ D=M
 @14
 A=M
 M=D
-// [ERROR] unknown command detected
+(LOOP)
 // [ERROR] unknown command detected
 // [ERROR] unknown command detected
 @4001

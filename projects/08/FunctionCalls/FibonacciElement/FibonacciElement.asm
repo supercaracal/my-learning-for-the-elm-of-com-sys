@@ -7,6 +7,8 @@ M=D
 @SP
 M=M+1
 // [ERROR] unknown command detected
+(WHILE)
+// [ERROR] unknown command detected
 // [ERROR] unknown command detected
 @0
 D=A
@@ -26,9 +28,49 @@ A=M
 M=D
 @SP
 M=M+1
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+D=M-D
+@LABEL0
+D;JLT
+@SP
+A=M
+M=0
+@LABEL1
+0;JMP
+(LABEL0)
+@SP
+A=M
+M=-1
+(LABEL1)
+@SP
+M=M+1
+@SP
+M=M-1
+A=M
+D=M
+@IF_TRUE
+D;JGT
 // [ERROR] unknown command detected
+(IF_TRUE)
+@0
+D=A
+@ARG
+A=M
+A=D+A
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
 // [ERROR] unknown command detected
-// [ERROR] unknown command detected
+(IF_FALSE)
 @0
 D=A
 @ARG
@@ -57,6 +99,7 @@ A=M
 M=M-D
 @SP
 M=M+1
+// [ERROR] unknown command detected
 @0
 D=A
 @ARG
@@ -86,6 +129,17 @@ M=M-D
 @SP
 M=M+1
 // [ERROR] unknown command detected
-(LABEL0)
-@LABEL0
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+M=D+M
+@SP
+M=M+1
+// [ERROR] unknown command detected
+(LABEL2)
+@LABEL2
 0;JMP

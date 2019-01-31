@@ -1,7 +1,7 @@
 #include "vm-lexer.h"
 
 #define MIN_CMD_LIST_SIZE 16
-#define MAX_TOKEN_SIZE 16
+#define MAX_TOKEN_SIZE 128
 
 enum r_mode { COMMAND, ARG1, ARG2, COMMENT };
 
@@ -52,10 +52,11 @@ lex_vm_file(const char *buf, struct cmd_list *cl, int fid) {
       case '\r':
         break;
       case '\n':
-        if (!init && mode != COMMENT) set_token(cmd, token, mode);
-        if (!init) cl_add(cl, cmd);
+        if (!init) set_token(cmd, token, mode);
+        if (cmd != NULL) cl_add(cl, cmd);
         init = 1;
         mode = COMMAND;
+        cmd = NULL;
         break;
       case ' ':
       case '\t':
@@ -71,10 +72,10 @@ lex_vm_file(const char *buf, struct cmd_list *cl, int fid) {
         if (mode == COMMENT) break;
         if (init) {
           for (k = 0; k < MAX_TOKEN_SIZE; ++k) token[k] = '\0';
-          if (mode == COMMAND) cmd = cmd_alloc(fid);
-          j = 0;
           init = 0;
+          j = 0;
         }
+        if (cmd == NULL) cmd = cmd_alloc(fid);
         if (j >= MAX_TOKEN_SIZE) break;
         token[j++] = (char) tolower(buf[i]);
         break;
@@ -108,6 +109,10 @@ set_token(struct command *cmd, const char token[MAX_TOKEN_SIZE], const enum r_mo
         cmd->type = PUSH;
       } else if (strcmp(token, "pop") == 0) {
         cmd->type = POP;
+      } else if (strcmp(token, "label") == 0) {
+        cmd->type = LABEL;
+      } else if (strcmp(token, "if-goto") == 0) {
+        cmd->type = IFGOTO;
       } else {
         fprintf(stderr, "Unknown command found: %s\n", token);
       }

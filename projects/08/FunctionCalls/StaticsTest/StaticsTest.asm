@@ -83,6 +83,24 @@ M=D
 @SP
 M=M+1
 // [ERROR] unknown command detected
+@SP
+M=M-1
+A=M
+D=M
+@R13
+M=D
+@0
+D=A
+@5
+A=D+A
+D=A
+@14
+M=D
+@13
+D=M
+@14
+A=M
+M=D
 @23
 D=A
 @SP
@@ -98,9 +116,27 @@ M=D
 @SP
 M=M+1
 // [ERROR] unknown command detected
+@SP
+M=M-1
+A=M
+D=M
+@R13
+M=D
+@0
+D=A
+@5
+A=D+A
+D=A
+@14
+M=D
+@13
+D=M
+@14
+A=M
+M=D
 // [ERROR] unknown command detected
 // [ERROR] unknown command detected
-// [ERROR] unknown command detected
+(WHILE)
 // [ERROR] unknown command detected
 // [ERROR] unknown command detected
 @0
