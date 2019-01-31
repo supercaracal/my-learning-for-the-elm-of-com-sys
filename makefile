@@ -1,10 +1,11 @@
+SHELL := /bin/bash
 CC := gcc
 CFLAGS += -Wall
 sources_of_assembler := assembler/*.c
 sources_of_vm_translater := vm-translater/*.h vm-translater/*.c
 asm_files := $(shell find projects/06/ -type f -name *.asm)
 hack_dir := projects/06/actual
-vm_files := $(shell find projects/07/ -type f -name *.vm)
+vm_dirs := $(shell echo projects/0{7,8}/**/**)
 
 define build-bin
   $(strip $(LINK.c)) $(OUTPUT_OPTION) $^
@@ -45,15 +46,15 @@ bin/vm-translater-debug: $(sources_of_vm_translater)
 
 assemble: bin bin/assembler
 	@mkdir -p $(hack_dir)
-	@for input in ${asm_files}; do\
-		output="$(hack_dir)/$$(basename -s .asm $${input}).hack";\
-		echo "ASSEMBLE: $${input} > $${output}";\
-		bin/assembler "$${input}" > "$${output}";\
+	@for input in $(asm_files); do\
+		output="$(hack_dir)/$$(basename -s .asm $$input).hack";\
+		echo "ASSEMBLE: $$input > $$output";\
+		bin/assembler "$$input" > "$$output";\
 	done
 
 vm-translate: bin bin/vm-translater
-	@for input in ${vm_files}; do\
-		output="$${input%.*}.asm";\
-		echo "VM-TRANSLATE: $${input} > $${output}";\
-		bin/vm-translater "$${input}" > "$${output}";\
+	@for input in $(vm_dirs); do\
+		output="$${input}/$$(basename $$input).asm";\
+		echo "VM-TRANSLATE: $$input > $$output";\
+		bin/vm-translater "$$input" > "$$output";\
 	done
