@@ -1,4 +1,4 @@
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: function
 @4000
 D=A
 @SP
@@ -49,7 +49,7 @@ D=M
 @14
 A=M
 M=D
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: call
 @SP
 M=M-1
 A=M
@@ -69,8 +69,9 @@ D=M
 A=M
 M=D
 (LOOP)
-// [ERROR] unknown command detected
-// [ERROR] unknown command detected
+@LOOP
+0;JMP
+// [ERROR] not implemented yet: function
 @4001
 D=A
 @SP
@@ -206,7 +207,7 @@ A=M
 M=D
 @SP
 M=M+1
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: call
 @SP
 M=M-1
 A=M
@@ -320,8 +321,8 @@ A=M
 M=D+M
 @SP
 M=M+1
-// [ERROR] unknown command detected
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: return
+// [ERROR] not implemented yet: function
 @4002
 D=A
 @SP
@@ -400,7 +401,7 @@ A=M
 M=D+M
 @SP
 M=M+1
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: return
 (LABEL0)
 @LABEL0
 0;JMP

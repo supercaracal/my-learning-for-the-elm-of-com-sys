@@ -16,7 +16,9 @@ struct vm_list {
 enum cmd_type {
   UNKNOWN,
   ADD, SUB, NEG, EQ, GT, LT, AND, OR, NOT,
-  PUSH, POP, LABEL, IFGOTO
+  PUSH, POP,
+  LABEL, GOTO, IFGOTO,
+  FUNCTION, CALL, RETURN
 };
 
 struct command {

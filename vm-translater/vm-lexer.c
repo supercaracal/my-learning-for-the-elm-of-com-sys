@@ -111,8 +111,16 @@ set_token(struct command *cmd, const char token[MAX_TOKEN_SIZE], const enum r_mo
         cmd->type = POP;
       } else if (strcmp(token, "label") == 0) {
         cmd->type = LABEL;
+      } else if (strcmp(token, "goto") == 0) {
+        cmd->type = GOTO;
       } else if (strcmp(token, "if-goto") == 0) {
         cmd->type = IFGOTO;
+      } else if (strcmp(token, "function") == 0) {
+        cmd->type = FUNCTION;
+      } else if (strcmp(token, "call") == 0) {
+        cmd->type = CALL;
+      } else if (strcmp(token, "return") == 0) {
+        cmd->type = RETURN;
       } else {
         fprintf(stderr, "Unknown command found: %s\n", token);
       }

@@ -144,7 +144,8 @@ A=M
 D=M
 @COMPUTE_ELEMENT
 D;JGT
-// [ERROR] unknown command detected
+@END_PROGRAM
+0;JMP
 (COMPUTE_ELEMENT)
 @0
 D=A
@@ -289,7 +290,8 @@ D=M
 @14
 A=M
 M=D
-// [ERROR] unknown command detected
+@MAIN_LOOP_START
+0;JMP
 (END_PROGRAM)
 (LABEL0)
 @LABEL0

@@ -1,4 +1,4 @@
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: function
 @0
 D=A
 @ARG
@@ -40,8 +40,8 @@ A=M
 M=D
 @SP
 M=M+1
-// [ERROR] unknown command detected
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: return
+// [ERROR] not implemented yet: function
 @STATIC0.0
 D=M
 @SP
@@ -66,8 +66,8 @@ A=M
 M=M-D
 @SP
 M=M+1
-// [ERROR] unknown command detected
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: return
+// [ERROR] not implemented yet: function
 @6
 D=A
 @SP
@@ -82,7 +82,7 @@ A=M
 M=D
 @SP
 M=M+1
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: call
 @SP
 M=M-1
 A=M
@@ -115,7 +115,7 @@ A=M
 M=D
 @SP
 M=M+1
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: call
 @SP
 M=M-1
 A=M
@@ -134,11 +134,12 @@ D=M
 @14
 A=M
 M=D
-// [ERROR] unknown command detected
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: call
+// [ERROR] not implemented yet: call
 (WHILE)
-// [ERROR] unknown command detected
-// [ERROR] unknown command detected
+@WHILE
+0;JMP
+// [ERROR] not implemented yet: function
 @0
 D=A
 @ARG
@@ -180,8 +181,8 @@ A=M
 M=D
 @SP
 M=M+1
-// [ERROR] unknown command detected
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: return
+// [ERROR] not implemented yet: function
 @STATIC2.0
 D=M
 @SP
@@ -206,7 +207,7 @@ A=M
 M=M-D
 @SP
 M=M+1
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: return
 (LABEL0)
 @LABEL0
 0;JMP

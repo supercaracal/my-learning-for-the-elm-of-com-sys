@@ -1,4 +1,4 @@
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: function
 @4
 D=A
 @SP
@@ -6,10 +6,11 @@ A=M
 M=D
 @SP
 M=M+1
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: call
 (WHILE)
-// [ERROR] unknown command detected
-// [ERROR] unknown command detected
+@WHILE
+0;JMP
+// [ERROR] not implemented yet: function
 @0
 D=A
 @ARG
@@ -56,7 +57,8 @@ A=M
 D=M
 @IF_TRUE
 D;JGT
-// [ERROR] unknown command detected
+@IF_FALSE
+0;JMP
 (IF_TRUE)
 @0
 D=A
@@ -69,7 +71,7 @@ A=M
 M=D
 @SP
 M=M+1
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: return
 (IF_FALSE)
 @0
 D=A
@@ -99,7 +101,7 @@ A=M
 M=M-D
 @SP
 M=M+1
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: call
 @0
 D=A
 @ARG
@@ -128,7 +130,7 @@ A=M
 M=M-D
 @SP
 M=M+1
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: call
 @SP
 M=M-1
 A=M
@@ -139,7 +141,7 @@ A=M
 M=D+M
 @SP
 M=M+1
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: return
 (LABEL2)
 @LABEL2
 0;JMP

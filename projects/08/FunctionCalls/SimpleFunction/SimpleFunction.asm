@@ -1,4 +1,4 @@
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: function
 @0
 D=A
 @LCL
@@ -79,7 +79,7 @@ A=M
 M=M-D
 @SP
 M=M+1
-// [ERROR] unknown command detected
+// [ERROR] not implemented yet: return
 (LABEL0)
 @LABEL0
 0;JMP
