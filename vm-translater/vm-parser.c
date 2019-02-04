@@ -1,9 +1,11 @@
 #include "vm-parser.h"
 
 static char *conv_cmpr(const char *jump, struct label *lbl);
-static char *conv_label(const struct command *cmd, struct label *lbl);
-static char *conv_goto(const struct command *cmd, struct label *lbl);
-static char *conv_if_goto(const struct command *cmd, struct label *lbl);
+static char *conv_label(const struct command *cmd);
+static char *conv_goto(const struct command *cmd);
+static char *conv_if_goto(const struct command *cmd);
+static char *conv_function(const struct command *cmd);
+static char *conv_return(const struct command *cmd);
 
 char *
 parse_vm_command(const struct command *cmd, struct label *lbl) {
@@ -19,12 +21,12 @@ parse_vm_command(const struct command *cmd, struct label *lbl) {
     case NOT:      return STK_POP "M=!M" STK_FW_SP;
     case PUSH:     return conv_push(cmd);
     case POP:      return conv_pop(cmd);
-    case LABEL:    return conv_label(cmd, lbl);
-    case GOTO:     return conv_goto(cmd, lbl);
-    case IFGOTO:   return conv_if_goto(cmd, lbl);
-    case FUNCTION: return "// [ERROR] not implemented yet: function";
+    case LABEL:    return conv_label(cmd);
+    case GOTO:     return conv_goto(cmd);
+    case IFGOTO:   return conv_if_goto(cmd);
+    case FUNCTION: return conv_function(cmd);
     case CALL:     return "// [ERROR] not implemented yet: call";
-    case RETURN:   return "// [ERROR] not implemented yet: return";
+    case RETURN:   return conv_return(cmd);
     default:       return "// [ERROR] unknown command detected";
   }
 }
@@ -100,7 +102,7 @@ conv_cmpr(const char *jump, struct label *lbl) {
 }
 
 static char *
-conv_label(const struct command *cmd, struct label *lbl) {
+conv_label(const struct command *cmd) {
   int size;
   char *buf;
   int i;
@@ -115,7 +117,7 @@ conv_label(const struct command *cmd, struct label *lbl) {
 }
 
 static char *
-conv_goto(const struct command *cmd, struct label *lbl) {
+conv_goto(const struct command *cmd) {
   int size;
   char *buf;
   int i;
@@ -132,7 +134,7 @@ conv_goto(const struct command *cmd, struct label *lbl) {
 }
 
 static char *
-conv_if_goto(const struct command *cmd, struct label *lbl) {
+conv_if_goto(const struct command *cmd) {
   int size;
   char *buf;
   int i;
@@ -148,4 +150,82 @@ conv_if_goto(const struct command *cmd, struct label *lbl) {
     "@%s" "\n"
     "D;JGT", cmd->arg1);
   return buf;
+}
+
+static char *
+conv_function(const struct command *cmd) {
+  int size;
+  char *buf;
+  char *lcl_buf;
+  int i;
+  int lcl_n;
+  int lcl_len;
+  int lbl_len;
+
+  lbl_len = strlen(cmd->arg1);
+  for (i = 0; i < lbl_len; ++i) cmd->arg1[i] = toupper(cmd->arg1[i]);
+  lcl_n = atoi(cmd->arg2);
+  lcl_len = 70 * lcl_n;
+  lcl_buf = asm_code_alloc(lcl_len + 1);
+  for (i = 0, size = 70; i < lcl_n; ++i) {
+    buf = asm_code_alloc(size);
+    snprintf(buf, size,
+      "\n" "@%d"
+      "\n" "D=A"
+      "\n" "@LCL"
+      "\n" "A=D+M"
+      "\n" "M=0"
+      STK_FW_SP, i);
+    strcat(lcl_buf, buf);  // NOLINT
+  }
+  size = 2 + lbl_len + lcl_len + 10;
+  buf = asm_code_alloc(size);
+  snprintf(buf, size, "(%s)%s", cmd->arg1, lcl_buf);
+  return buf;
+}
+
+#define BACK_CALLER_SEG \
+  "@R13"  "\n"\
+  "M=M-1" "\n"\
+  "A=M"   "\n"\
+  "D=M"   "\n"
+
+static char *
+conv_return(const struct command *cmd) {
+  return
+    "@LCL"  "\n"
+    "D=M"   "\n"
+    "@R13"  "\n"
+    "M=D"   "\n"  // R13 = FRAME = LCL
+    "@5"    "\n"
+    "D=A"   "\n"
+    "@R13"  "\n"
+    "A=M-D" "\n"  // FRAME - 5
+    "D=M"   "\n"  // *(FRAME - 5)
+    "@R14"  "\n"
+    "M=D"   "\n"  // R14 = RET_ADDR = *(FRAME - 5)
+    STK_POP
+    "D=M"   "\n"
+    "@ARG"  "\n"
+    "A=M"   "\n"
+    "M=D"   "\n"  // *ARG = RET_VAL = pop()
+    "@ARG"  "\n"
+    "D=M"   "\n"
+    "@SP"   "\n"
+    "M=D+1" "\n"  // SP = ARG + 1
+    BACK_CALLER_SEG
+    "@THAT" "\n"
+    "M=D"   "\n"  // THAT = *(FRAME - 1)
+    BACK_CALLER_SEG
+    "@THIS" "\n"
+    "M=D"   "\n"  // THIS = *(FRAME - 2)
+    BACK_CALLER_SEG
+    "@ARG"  "\n"
+    "M=D"   "\n"  // ARG = *(FRAME - 3)
+    BACK_CALLER_SEG
+    "@LCL"  "\n"
+    "M=D"   "\n"  // LCL = *(FRAME - 4)
+    "@R14"  "\n"
+    "A=M"   "\n"
+    "0;JMP";      // goto RET_ADDR
 }
