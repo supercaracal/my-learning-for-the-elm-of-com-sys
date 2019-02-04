@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include "data_types.h"
 
 void lex_vm_files(struct vm_list *vl, struct cmd_list *cl);

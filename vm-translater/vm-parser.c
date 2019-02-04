@@ -105,12 +105,8 @@ static char *
 conv_label(const struct command *cmd) {
   int size;
   char *buf;
-  int i;
-  int lbl_len;
 
-  lbl_len = strlen(cmd->arg1);
-  for (i = 0; i < lbl_len; ++i) cmd->arg1[i] = toupper(cmd->arg1[i]);
-  size = 2 + lbl_len + 1;
+  size = 2 + strlen(cmd->arg1) + 1;
   buf = asm_code_alloc(size);
   snprintf(buf, size, "(%s)", cmd->arg1);
   return buf;
@@ -120,12 +116,8 @@ static char *
 conv_goto(const struct command *cmd) {
   int size;
   char *buf;
-  int i;
-  int lbl_len;
 
-  lbl_len = strlen(cmd->arg1);
-  for (i = 0; i < lbl_len; ++i) cmd->arg1[i] = toupper(cmd->arg1[i]);
-  size = 10 * 2 + lbl_len + 1;
+  size = 10 * 2 + strlen(cmd->arg1) + 1;
   buf = asm_code_alloc(size);
   snprintf(buf, size,
     "@%s" "\n"
@@ -137,12 +129,8 @@ static char *
 conv_if_goto(const struct command *cmd) {
   int size;
   char *buf;
-  int i;
-  int lbl_len;
 
-  lbl_len = strlen(cmd->arg1);
-  for (i = 0; i < lbl_len; ++i) cmd->arg1[i] = toupper(cmd->arg1[i]);
-  size = 10 * 6 + lbl_len + 1;
+  size = 10 * 6 + strlen(cmd->arg1) + 1;
   buf = asm_code_alloc(size);
   snprintf(buf, size,
     STK_POP
@@ -160,10 +148,7 @@ conv_function(const struct command *cmd) {
   int i;
   int lcl_n;
   int lcl_len;
-  int lbl_len;
 
-  lbl_len = strlen(cmd->arg1);
-  for (i = 0; i < lbl_len; ++i) cmd->arg1[i] = toupper(cmd->arg1[i]);
   lcl_n = atoi(cmd->arg2);
   lcl_len = 70 * lcl_n;
   lcl_buf = asm_code_alloc(lcl_len + 1);
@@ -178,7 +163,7 @@ conv_function(const struct command *cmd) {
       STK_FW_SP, i);
     strcat(lcl_buf, buf);  // NOLINT
   }
-  size = 2 + lbl_len + lcl_len + 10;
+  size = 2 + strlen(cmd->arg1) + lcl_len + 10;
   buf = asm_code_alloc(size);
   snprintf(buf, size, "(%s)%s", cmd->arg1, lcl_buf);
   return buf;

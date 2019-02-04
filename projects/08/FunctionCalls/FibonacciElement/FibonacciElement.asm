@@ -1,4 +1,4 @@
-(SYS.INIT)
+(Sys.init)
 @4
 D=A
 @SP
@@ -10,7 +10,7 @@ M=M+1
 (WHILE)
 @WHILE
 0;JMP
-(MAIN.FIBONACCI)
+(Main.fibonacci)
 @0
 D=A
 @ARG

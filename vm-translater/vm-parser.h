@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include "data_types.h"
 #include "vm-parser-common.h"
 #include "vm-parser-push.h"

@@ -77,7 +77,7 @@ lex_vm_file(const char *buf, struct cmd_list *cl, int fid) {
         }
         if (cmd == NULL) cmd = cmd_alloc(fid);
         if (j >= MAX_TOKEN_SIZE) break;
-        token[j++] = (char) tolower(buf[i]);
+        token[j++] = buf[i];
         break;
     }
   }

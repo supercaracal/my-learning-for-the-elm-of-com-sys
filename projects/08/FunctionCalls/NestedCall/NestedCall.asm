@@ -1,4 +1,4 @@
-(SYS.INIT)
+(Sys.init)
 @4000
 D=A
 @SP
@@ -71,7 +71,7 @@ M=D
 (LOOP)
 @LOOP
 0;JMP
-(SYS.MAIN)
+(Sys.main)
 @0
 D=A
 @LCL
@@ -405,7 +405,7 @@ M=D
 @R14
 A=M
 0;JMP
-(SYS.ADD12)
+(Sys.add12)
 @4002
 D=A
 @SP

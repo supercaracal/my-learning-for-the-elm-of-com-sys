@@ -1,4 +1,4 @@
-(CLASS2.SET)
+(Class2.set)
 @0
 D=A
 @ARG
@@ -89,7 +89,7 @@ M=D
 @R14
 A=M
 0;JMP
-(CLASS2.GET)
+(Class2.get)
 @STATIC0.0
 D=M
 @SP
@@ -163,7 +163,7 @@ M=D
 @R14
 A=M
 0;JMP
-(SYS.INIT)
+(Sys.init)
 @6
 D=A
 @SP
@@ -235,7 +235,7 @@ M=D
 (WHILE)
 @WHILE
 0;JMP
-(CLASS1.SET)
+(Class1.set)
 @0
 D=A
 @ARG
@@ -326,7 +326,7 @@ M=D
 @R14
 A=M
 0;JMP
-(CLASS1.GET)
+(Class1.get)
 @STATIC2.0
 D=M
 @SP
