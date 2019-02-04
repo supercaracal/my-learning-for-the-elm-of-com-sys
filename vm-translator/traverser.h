@@ -1,5 +1,5 @@
-#ifndef VM_TRANSLATER_TRAVERSER_H_
-#define VM_TRANSLATER_TRAVERSER_H_
+#ifndef VM_TRANSLATOR_TRAVERSER_H_
+#define VM_TRANSLATOR_TRAVERSER_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,4 +9,4 @@
 
 void traverse(const char *root, struct path_list *pl);
 
-#endif  // VM_TRANSLATER_TRAVERSER_H_
+#endif  // VM_TRANSLATOR_TRAVERSER_H_

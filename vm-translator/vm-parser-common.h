@@ -1,5 +1,5 @@
-#ifndef VM_TRANSLATER_VM_PARSER_COMMON_H_
-#define VM_TRANSLATER_VM_PARSER_COMMON_H_
+#ifndef VM_TRANSLATOR_VM_PARSER_COMMON_H_
+#define VM_TRANSLATOR_VM_PARSER_COMMON_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,4 +32,4 @@
 
 char *asm_code_alloc(int size);
 
-#endif  // VM_TRANSLATER_VM_PARSER_COMMON_H_
+#endif  // VM_TRANSLATOR_VM_PARSER_COMMON_H_

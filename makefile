@@ -2,7 +2,7 @@ SHELL := /bin/bash
 CC := gcc
 CFLAGS += -Wall
 sources_of_assembler := assembler/*.c
-sources_of_vm_translater := vm-translater/*.h vm-translater/*.c
+sources_of_vm_translator := vm-translator/*.h vm-translator/*.c
 asm_files := $(shell find projects/06/ -type f -name *.asm)
 hack_dir := projects/06/actual
 vm_dirs := $(shell echo projects/0{7,8}/**/**)
@@ -13,11 +13,11 @@ endef
 
 .PHONY: lint assemble vm-translate
 
-build-all: bin build-assembler build-vm-translater
+build-all: bin build-assembler build-vm-translator
 
 build-assembler: bin bin/assembler bin/assembler-debug
 
-build-vm-translater: bin bin/vm-translater bin/vm-translater-debug
+build-vm-translator: bin bin/vm-translator bin/vm-translator-debug
 
 bin:
 	@mkdir -p bin
@@ -26,7 +26,7 @@ clean: bin
 	@rm -rf $^
 
 lint:
-	@cpplint $(sources_of_assembler) $(sources_of_vm_translater)
+	@cpplint $(sources_of_assembler) $(sources_of_vm_translator)
 
 bin/assembler: $(sources_of_assembler)
 	$(build-bin)
@@ -36,12 +36,12 @@ bin/assembler-debug: CPPFLAGS += -DDEBUG
 bin/assembler-debug: $(sources_of_assembler)
 	$(build-bin)
 
-bin/vm-translater: $(sources_of_vm_translater)
+bin/vm-translator: $(sources_of_vm_translator)
 	$(build-bin)
 
-bin/vm-translater-debug: CFLAGS += -g
-bin/vm-translater-debug: CPPFLAGS += -DDEBUG
-bin/vm-translater-debug: $(sources_of_vm_translater)
+bin/vm-translator-debug: CFLAGS += -g
+bin/vm-translator-debug: CPPFLAGS += -DDEBUG
+bin/vm-translator-debug: $(sources_of_vm_translator)
 	$(build-bin)
 
 assemble: bin bin/assembler
@@ -52,9 +52,9 @@ assemble: bin bin/assembler
 		bin/assembler "$$input" > "$$output";\
 	done
 
-vm-translate: bin bin/vm-translater
+vm-translate: bin bin/vm-translator
 	@for input in $(vm_dirs); do\
 		output="$${input}/$$(basename $$input).asm";\
 		echo "VM-TRANSLATE: $$input > $$output";\
-		bin/vm-translater "$$input" > "$$output";\
+		bin/vm-translator "$$input" > "$$output";\
 	done

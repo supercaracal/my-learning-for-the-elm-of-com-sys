@@ -1,5 +1,5 @@
-#ifndef VM_TRANSLATER_VM_LABEL_H_
-#define VM_TRANSLATER_VM_LABEL_H_
+#ifndef VM_TRANSLATOR_VM_LABEL_H_
+#define VM_TRANSLATOR_VM_LABEL_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,4 +8,4 @@
 
 char *create_label(struct label *lbl);
 
-#endif  // VM_TRANSLATER_VM_LABEL_H_
+#endif  // VM_TRANSLATOR_VM_LABEL_H_

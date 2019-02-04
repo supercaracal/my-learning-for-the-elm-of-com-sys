@@ -1,5 +1,5 @@
-#ifndef VM_TRANSLATER_VM_PARSER_H_
-#define VM_TRANSLATER_VM_PARSER_H_
+#ifndef VM_TRANSLATOR_VM_PARSER_H_
+#define VM_TRANSLATOR_VM_PARSER_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,4 +14,4 @@ char *parse_vm_command(const struct command *cmd, struct label *lbl);
 char *stringify_command(enum cmd_type type);
 char *build_finish_command(struct label *lbl);
 
-#endif  // VM_TRANSLATER_VM_PARSER_H_
+#endif  // VM_TRANSLATOR_VM_PARSER_H_

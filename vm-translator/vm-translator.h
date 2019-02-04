@@ -1,5 +1,5 @@
-#ifndef VM_TRANSLATER_VM_TRANSLATER_H_
-#define VM_TRANSLATER_VM_TRANSLATER_H_
+#ifndef VM_TRANSLATOR_VM_TRANSLATOR_H_
+#define VM_TRANSLATOR_VM_TRANSLATOR_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,4 +8,4 @@
 #include "vm-lexer.h"
 #include "vm-parser.h"
 
-#endif  // VM_TRANSLATER_VM_TRANSLATER_H_
+#endif  // VM_TRANSLATOR_VM_TRANSLATOR_H_

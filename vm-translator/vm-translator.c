@@ -1,4 +1,4 @@
-#include "vm-translater.h"
+#include "vm-translator.h"
 
 int
 main(int argc, char *argv[]) {

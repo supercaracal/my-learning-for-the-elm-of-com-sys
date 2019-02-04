@@ -1,5 +1,5 @@
-#ifndef VM_TRANSLATER_DATA_TYPES_H_
-#define VM_TRANSLATER_DATA_TYPES_H_
+#ifndef VM_TRANSLATOR_DATA_TYPES_H_
+#define VM_TRANSLATOR_DATA_TYPES_H_
 
 struct path_list {
   char **paths;
@@ -39,4 +39,4 @@ struct label {
   int i;
 };
 
-#endif  // VM_TRANSLATER_DATA_TYPES_H_
+#endif  // VM_TRANSLATOR_DATA_TYPES_H_
