@@ -10,8 +10,8 @@
 #include "vm-parser-pop.h"
 #include "vm-label.h"
 
-char *parse_vm_command(const struct command *cmd, struct label *lbl);
+char *parse_vm_command(const struct command *cmd, struct label *lbl, char *cfunc);
 char *stringify_command(enum cmd_type type);
-char *build_finish_command(struct label *lbl);
+char *build_bootstrap_asm_code(struct label *lbl);
 
 #endif  // VM_TRANSLATOR_VM_PARSER_H_

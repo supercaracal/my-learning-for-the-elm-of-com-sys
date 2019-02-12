@@ -409,6 +409,3 @@ A=M
 M=!M
 @SP
 M=M+1
-(LABEL18)
-@LABEL18
-0;JMP

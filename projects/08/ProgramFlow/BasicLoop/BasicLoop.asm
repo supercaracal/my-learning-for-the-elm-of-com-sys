@@ -139,7 +139,7 @@ M=M-1
 A=M
 D=M
 @LOOP_START
-D;JGT
+D;JNE
 @0
 D=A
 @LCL
@@ -151,6 +151,3 @@ A=M
 M=D
 @SP
 M=M+1
-(LABEL0)
-@LABEL0
-0;JMP

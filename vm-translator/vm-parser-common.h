@@ -18,9 +18,28 @@
   "M=M-1" "\n"\
   "A=M"   "\n"
 
+#define STK_PUSH \
+  "@SP"   "\n"\
+  "A=M"   "\n"\
+  "M=D"   "\n"\
+  "@SP"   "\n"\
+  "M=M+1" "\n"
+
 #define STK_FW_SP "\n"\
   "@SP"   "\n"\
   "M=M+1"
+
+#define BACK_CALLER_SEG \
+  "@R13"  "\n"\
+  "M=M-1" "\n"\
+  "A=M"   "\n"\
+  "D=M"   "\n"
+
+#define MAX_CUR_FNC_NAME_SIZE 256
+#define INIT_FUNC_NAME "Sys.init"
+#define MIN_SP_ADDR 256
+#define MIN_HEAP_ADDR 2048
+#define ARG_PTR_OFFSET_ON_CALL 5
 
 #define SEG_ARG_REG_NAME "ARG"
 #define SEG_LCL_REG_NAME "LCL"

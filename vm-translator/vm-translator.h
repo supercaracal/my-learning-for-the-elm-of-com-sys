@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "data_types.h"
 #include "vm-reader.h"
 #include "vm-lexer.h"

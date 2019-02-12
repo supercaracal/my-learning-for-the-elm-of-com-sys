@@ -22,6 +22,3 @@ A=M
 M=D+M
 @SP
 M=M+1
-(LABEL0)
-@LABEL0
-0;JMP
