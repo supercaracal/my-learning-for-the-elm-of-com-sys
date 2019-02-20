@@ -28,7 +28,7 @@ line: expr LF { printf("= %lf\n", $1); }
     ;
 
 expr: expr ADD expr { $$ = $1 + $3; }
-    | expr SUB expr { $$ = $1 = $3; }
+    | expr SUB expr { $$ = $1 - $3; }
     | expr MUL expr { $$ = $1 * $3; }
     | expr DIV expr { $$ = $1 / $3; }
     | primary
