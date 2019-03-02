@@ -4,7 +4,7 @@ notifications:
   email: false
 before_install:
   - "sudo apt update -q -y"
-  - "sudo apt install -q -y build-essential"
+  - "sudo apt install -q -y build-essential flex bison"
 script:
   - "make build-all"
   - "make lint"
