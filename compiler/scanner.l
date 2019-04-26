@@ -13,18 +13,19 @@ REGEXP_STRING     \"([^"\\]|\\.)*\"
 REGEXP_IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 %option yylineno
 %option noyywrap
-%x COMMENT
+%x ML_COMMENT
+%x OL_COMMENT
 %%
-"/*"                    BEGIN(COMMENT);
-<COMMENT>[^*\n]*
-<COMMENT>[^*\n]*\n
-<COMMENT>"*"+[^*/\n]*
-<COMMENT>"*"+[^*/\n]*\n
-<COMMENT><<EOF>>        yyerror("Reached to EOF in multi-line comment.");
-<COMMENT>"*"+"/"        BEGIN(INITIAL);
+"/*"                       BEGIN(ML_COMMENT);
+<ML_COMMENT>[^*\n]*
+<ML_COMMENT>[^*\n]*\n
+<ML_COMMENT>"*"+[^*/\n]*
+<ML_COMMENT>"*"+[^*/\n]*\n
+<ML_COMMENT><<EOF>>        yyerror("Reached to EOF in multi-line comment.");
+<ML_COMMENT>"*"+"/"        BEGIN(INITIAL);
 
-"//"                    BEGIN(COMMENT);
-<COMMENT>[^\n]*\n       BEGIN(INITIAL);
+"//"                       BEGIN(OL_COMMENT);
+<OL_COMMENT>[^\n]*\n       BEGIN(INITIAL);
 
 class       return CLASS;
 constructor return CONSTRUCTOR;
