@@ -4,10 +4,9 @@ CFLAGS += -Wall
 LEX := flex
 LFLAGS += -X
 YACC := bison
-YFLAGS += -d -y
+YFLAGS += -d -y -v
 sources_of_assembler := assembler/*.c
 sources_of_vm_translator := vm-translator/*.h vm-translator/*.c
-sources_of_compiler = compiler/*.h compiler/*.c
 asm_files := $(shell find projects/06/ -type f -name *.asm)
 hack_dir := projects/06/actual
 vm_dirs := $(shell echo projects/0{7,8}/**/**)
@@ -24,11 +23,11 @@ build-assembler: bin bin/assembler bin/assembler-debug
 
 build-vm-translator: bin bin/vm-translator bin/vm-translator-debug
 
-build-scanner: compiler/lex.yy.c
-
 build-parser: compiler/y.tab.h compiler/y.tab.c
 
-build-compiler: bin build-scanner build-parser bin/compiler bin/compiler-debug
+build-scanner: compiler/lex.yy.c
+
+build-compiler: bin build-parser build-scanner bin/compiler bin/compiler-debug
 
 bin:
 	@mkdir -p bin
@@ -55,19 +54,21 @@ bin/vm-translator-debug: CPPFLAGS += -DDEBUG
 bin/vm-translator-debug: $(sources_of_vm_translator)
 	$(build-bin)
 
-compiler/lex.yy.c: compiler/jack.l
-	$(strip $(LEX.l)) $^ > $@
-
-compiler/y.tab.h compiler/y.tab.c: compiler/jack.y
+compiler/y.tab.h compiler/y.tab.c: compiler/parser.y
 	$(strip $(YACC.y)) $^
 	@mv y.tab.* compiler/
+	@mv y.output compiler/
 
-bin/compiler: $(sources_of_compiler)
+compiler/lex.yy.c: compiler/scanner.l compiler/y.tab.h
+	$(strip $(LEX.l)) $^ > $@
+
+bin/compiler: compiler/y.tab.h compiler/y.tab.c compiler/lex.yy.c
 	$(build-bin)
 
 bin/compiler-debug: CFLAGS += -g
 bin/compiler-debug: CPPFLAGS += -DDEBUG
-bin/compiler-debug: $(sources_of_compiler)
+bin/compiler-debug: CPPFLAGS += -DYYDEBUG=1
+bin/compiler-debug: compiler/y.tab.h compiler/y.tab.c compiler/lex.yy.c
 	$(build-bin)
 
 assemble: bin bin/assembler
