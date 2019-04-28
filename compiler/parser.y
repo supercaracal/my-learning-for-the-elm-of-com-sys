@@ -1,6 +1,6 @@
 %{
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #if YYDEBUG
 extern int yydebug;
 #endif
@@ -13,8 +13,8 @@ static void yyerror(const char *msg);
 }
 %token <num> LITERAL_NUMBER
 %token <str> LITERAL_STRING IDENTIFIER
-%token CLASS CONSTRUCTOR FUNCTION METHOD FIELD STATIC VAR INT CHAR BOOLEAN VOID
-       TRUE FALSE NULLPO THIS LET DO IF ELSE WHILE RETURN
+%token <str> CLASS CONSTRUCTOR FUNCTION METHOD FIELD STATIC VAR INT CHAR BOOLEAN VOID
+             TRUE FALSE NULLPO THIS LET DO IF ELSE WHILE RETURN
 %left '+' '-'
 %left '*' '/'
 %right '~'
@@ -151,10 +151,17 @@ primary: LITERAL_NUMBER
        ;
 %%
 int main(int argc, char *arg[]) {
+  int ret;
+
 #if YYDEBUG
   yydebug = 1;
 #endif
-  exit(yyparse());
+
+  fprintf(stdout, "<tokens>\n");
+  ret = yyparse();
+  fprintf(stdout, "</tokens>");
+
+  exit(ret);
 }
 
 static void yyerror(const char *msg) {

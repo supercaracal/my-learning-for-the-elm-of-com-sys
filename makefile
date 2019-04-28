@@ -10,6 +10,7 @@ sources_of_vm_translator := vm-translator/*.h vm-translator/*.c
 asm_files := $(shell find projects/06/ -type f -name *.asm)
 hack_dir := projects/06/actual
 vm_dirs := $(shell echo projects/0{7,8}/**/**)
+jack_files := $(shell find projects/10/ -type f -name *.jack)
 
 define build-bin
   $(strip $(LINK.c)) $(OUTPUT_OPTION) $^
@@ -84,4 +85,20 @@ vm-translate: bin bin/vm-translator
 		output="$${input}/$$(basename $$input).asm";\
 		echo "VM-TRANSLATE: $$input > $$output";\
 		bin/vm-translator "$$input" > "$$output";\
+	done
+
+compile: bin bin/compiler
+	@for input in $(jack_files); do\
+		output="$$(dirname $$input)/Actual$$(basename -s .jack $$input)T.xml";\
+		expected="$$(dirname $$input)/$$(basename -s .jack $$input)T.xml";\
+		echo "COMPILE: $$input > $$output";\
+		bin/compiler < "$$input" > "$$output";\
+		echo "-->DIFF: $$expected $$output";\
+		diff\
+			--ignore-tab-expansion\
+			--ignore-trailing-space\
+			--ignore-space-change\
+			--ignore-blank-lines\
+			--strip-trailing-cr\
+			$$expected $$output;\
 	done

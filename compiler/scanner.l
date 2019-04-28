@@ -6,6 +6,8 @@
 #define YY_NO_UNPUT 1
 #define YYERROR_VERBOSE 1
 #define ALLOC_STRING(src_str) ((char *) calloc(1, strlen(src_str) + 1))
+#define P_XML_KW(str) (fprintf(stdout, "<keyword> %s </keyword>\n", str))
+#define P_XML_SYM(str) (fprintf(stdout, "<symbol> %s </symbol>\n", str))
 static void yyerror(const char *msg);
 %}
 REGEXP_NUMBER     ([1-9][0-9]*|0)
@@ -27,62 +29,67 @@ REGEXP_IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 "//"                       BEGIN(OL_COMMENT);
 <OL_COMMENT>[^\n]*\n       BEGIN(INITIAL);
 
-class       return CLASS;
-constructor return CONSTRUCTOR;
-function    return FUNCTION;
-method      return METHOD;
-field       return FIELD;
-static      return STATIC;
-var         return VAR;
-int         return INT;
-char        return CHAR;
-boolean     return BOOLEAN;
-void        return VOID;
-true        return TRUE;
-false       return FALSE;
-null        return NULLPO;
-this        return THIS;
-let         return LET;
-do          return DO;
-if          return IF;
-else        return ELSE;
-while       return WHILE;
-return      return RETURN;
+class       P_XML_KW(yytext); return CLASS;
+constructor P_XML_KW(yytext); return CONSTRUCTOR;
+function    P_XML_KW(yytext); return FUNCTION;
+method      P_XML_KW(yytext); return METHOD;
+field       P_XML_KW(yytext); return FIELD;
+static      P_XML_KW(yytext); return STATIC;
+var         P_XML_KW(yytext); return VAR;
+int         P_XML_KW(yytext); return INT;
+char        P_XML_KW(yytext); return CHAR;
+boolean     P_XML_KW(yytext); return BOOLEAN;
+void        P_XML_KW(yytext); return VOID;
+true        P_XML_KW(yytext); return TRUE;
+false       P_XML_KW(yytext); return FALSE;
+null        P_XML_KW(yytext); return NULLPO;
+this        P_XML_KW(yytext); return THIS;
+let         P_XML_KW(yytext); return LET;
+do          P_XML_KW(yytext); return DO;
+if          P_XML_KW(yytext); return IF;
+else        P_XML_KW(yytext); return ELSE;
+while       P_XML_KW(yytext); return WHILE;
+return      P_XML_KW(yytext); return RETURN;
 
-"{" return '{';
-"}" return '}';
-"(" return '(';
-")" return ')';
-"[" return '[';
-"]" return ']';
-"." return '.';
-"," return ',';
-";" return ';';
-"+" return '+';
-"-" return '-';
-"*" return '*';
-"/" return '/';
-"&" return '&';
-"|" return '|';
-"<" return '<';
-">" return '>';
-"=" return '=';
-"~" return '~';
+"{" P_XML_SYM(yytext); return '{';
+"}" P_XML_SYM(yytext); return '}';
+"(" P_XML_SYM(yytext); return '(';
+")" P_XML_SYM(yytext); return ')';
+"[" P_XML_SYM(yytext); return '[';
+"]" P_XML_SYM(yytext); return ']';
+"." P_XML_SYM(yytext); return '.';
+"," P_XML_SYM(yytext); return ',';
+";" P_XML_SYM(yytext); return ';';
+"+" P_XML_SYM(yytext); return '+';
+"-" P_XML_SYM(yytext); return '-';
+"*" P_XML_SYM(yytext); return '*';
+"/" P_XML_SYM(yytext); return '/';
+"&" P_XML_SYM("&amp;"); return '&';
+"|" P_XML_SYM(yytext); return '|';
+"<" P_XML_SYM("&lt;"); return '<';
+">" P_XML_SYM("&gt;"); return '>';
+"=" P_XML_SYM(yytext); return '=';
+"~" P_XML_SYM(yytext); return '~';
 
 {REGEXP_NUMBER} {
   sscanf(yytext, "%d", &yylval.num);
+  fprintf(stdout, "<integerConstant> %s </integerConstant>\n", yytext);
   return LITERAL_NUMBER;
 }
 
 {REGEXP_STRING} {
-  yylval.str = ALLOC_STRING(yytext);
-  sscanf(yytext, "%s", yylval.str);
+  char *text = ++yytext;
+  text[strlen(text) - 1] = '\0';
+  yylval.str = ALLOC_STRING(text);
+  sscanf(text, "%s", yylval.str);
+  fprintf(stdout, "<stringConstant> %s </stringConstant>\n", text);
   return LITERAL_STRING;
 }
 
 {REGEXP_IDENTIFIER} {
   yylval.str = ALLOC_STRING(yytext);
   sscanf(yytext, "%s", yylval.str);
+  fprintf(stdout, "<identifier> %s </identifier>\n", yytext);
   return IDENTIFIER;
 }
 
