@@ -6,8 +6,13 @@
 #define YY_NO_UNPUT 1
 #define YYERROR_VERBOSE 1
 #define ALLOC_STRING(src_str) ((char *) calloc(1, strlen(src_str) + 1))
+#ifdef CHAPTER10_XML_TOKEN
 #define P_XML_KW(str) (fprintf(stdout, "<keyword> %s </keyword>\n", str))
 #define P_XML_SYM(str) (fprintf(stdout, "<symbol> %s </symbol>\n", str))
+#else
+#define P_XML_KW(str) ;
+#define P_XML_SYM(str) ;
+#endif
 static void yyerror(const char *msg);
 %}
 REGEXP_NUMBER     ([1-9][0-9]*|0)
@@ -73,7 +78,9 @@ return      P_XML_KW(yytext); return RETURN;
 
 {REGEXP_NUMBER} {
   sscanf(yytext, "%d", &yylval.num);
+#ifdef CHAPTER10_XML_TOKEN
   fprintf(stdout, "<integerConstant> %s </integerConstant>\n", yytext);
+#endif
   return LITERAL_NUMBER;
 }
 
@@ -82,14 +89,18 @@ return      P_XML_KW(yytext); return RETURN;
   text[strlen(text) - 1] = '\0';
   yylval.str = ALLOC_STRING(text);
   sscanf(text, "%s", yylval.str);
+#ifdef CHAPTER10_XML_TOKEN
   fprintf(stdout, "<stringConstant> %s </stringConstant>\n", text);
+#endif
   return LITERAL_STRING;
 }
 
 {REGEXP_IDENTIFIER} {
   yylval.str = ALLOC_STRING(yytext);
   sscanf(yytext, "%s", yylval.str);
+#ifdef CHAPTER10_XML_TOKEN
   fprintf(stdout, "<identifier> %s </identifier>\n", yytext);
+#endif
   return IDENTIFIER;
 }
 

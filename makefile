@@ -89,8 +89,8 @@ vm-translate: bin bin/vm-translator
 
 compile: bin bin/compiler
 	@for input in $(jack_files); do\
-		output="$$(dirname $$input)/Actual$$(basename -s .jack $$input)T.xml";\
-		expected="$$(dirname $$input)/$$(basename -s .jack $$input)T.xml";\
+		output="$$(dirname $$input)/Actual$$(basename -s .jack $$input).xml";\
+		expected="$$(dirname $$input)/$$(basename -s .jack $$input).xml";\
 		echo "COMPILE: $$input > $$output";\
 		bin/compiler < "$$input" > "$$output";\
 		echo "-->DIFF: $$expected $$output";\

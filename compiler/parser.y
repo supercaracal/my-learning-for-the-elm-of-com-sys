@@ -157,9 +157,13 @@ int main(int argc, char *arg[]) {
   yydebug = 1;
 #endif
 
+#ifdef CHAPTER10_XML_TOKEN
   fprintf(stdout, "<tokens>\n");
+#endif
   ret = yyparse();
+#ifdef CHAPTER10_XML_TOKEN
   fprintf(stdout, "</tokens>");
+#endif
 
   exit(ret);
 }
