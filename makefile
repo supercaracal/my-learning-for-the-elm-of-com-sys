@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 CC := gcc
-CFLAGS += -Wall -std=c99 -D_POSIX_C_SOURCE=200809
+CFLAGS += -Wall -std=c99 -D_POSIX_C_SOURCE=200809 -D_BSD_SOURCE
 LEX := flex
 LFLAGS += -X
 YACC := bison
