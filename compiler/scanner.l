@@ -13,6 +13,11 @@
 #define P_XML_KW(str) ;
 #define P_XML_SYM(str) ;
 #endif
+#define COPY_STRING \
+  do { \
+    yylval.str = ALLOC_STRING(yytext); \
+    sscanf(yytext, "%s", yylval.str); \
+  } while (0)
 static void yyerror(const char *msg);
 %}
 REGEXP_NUMBER     ([1-9][0-9]*|0)
@@ -34,47 +39,47 @@ REGEXP_IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 "//"                       BEGIN(OL_COMMENT);
 <OL_COMMENT>[^\n]*\n       BEGIN(INITIAL);
 
-class       P_XML_KW(yytext); return CLASS;
-constructor P_XML_KW(yytext); return CONSTRUCTOR;
-function    P_XML_KW(yytext); return FUNCTION;
-method      P_XML_KW(yytext); return METHOD;
-field       P_XML_KW(yytext); return FIELD;
-static      P_XML_KW(yytext); return STATIC;
-var         P_XML_KW(yytext); return VAR;
-int         P_XML_KW(yytext); return INT;
-char        P_XML_KW(yytext); return CHAR;
-boolean     P_XML_KW(yytext); return BOOLEAN;
-void        P_XML_KW(yytext); return VOID;
-true        P_XML_KW(yytext); return TRUE;
-false       P_XML_KW(yytext); return FALSE;
-null        P_XML_KW(yytext); return NULLPO;
-this        P_XML_KW(yytext); return THIS;
-let         P_XML_KW(yytext); return LET;
-do          P_XML_KW(yytext); return DO;
-if          P_XML_KW(yytext); return IF;
-else        P_XML_KW(yytext); return ELSE;
-while       P_XML_KW(yytext); return WHILE;
-return      P_XML_KW(yytext); return RETURN;
+class       P_XML_KW(yytext); COPY_STRING; return CLASS;
+constructor P_XML_KW(yytext); COPY_STRING; return CONSTRUCTOR;
+function    P_XML_KW(yytext); COPY_STRING; return FUNCTION;
+method      P_XML_KW(yytext); COPY_STRING; return METHOD;
+field       P_XML_KW(yytext); COPY_STRING; return FIELD;
+static      P_XML_KW(yytext); COPY_STRING; return STATIC;
+var         P_XML_KW(yytext); COPY_STRING; return VAR;
+int         P_XML_KW(yytext); COPY_STRING; return INT;
+char        P_XML_KW(yytext); COPY_STRING; return CHAR;
+boolean     P_XML_KW(yytext); COPY_STRING; return BOOLEAN;
+void        P_XML_KW(yytext); COPY_STRING; return VOID;
+true        P_XML_KW(yytext); COPY_STRING; return TRUE;
+false       P_XML_KW(yytext); COPY_STRING; return FALSE;
+null        P_XML_KW(yytext); COPY_STRING; return NULLPO;
+this        P_XML_KW(yytext); COPY_STRING; return THIS;
+let         P_XML_KW(yytext); COPY_STRING; return LET;
+do          P_XML_KW(yytext); COPY_STRING; return DO;
+if          P_XML_KW(yytext); COPY_STRING; return IF;
+else        P_XML_KW(yytext); COPY_STRING; return ELSE;
+while       P_XML_KW(yytext); COPY_STRING; return WHILE;
+return      P_XML_KW(yytext); COPY_STRING; return RETURN;
 
-"{" P_XML_SYM(yytext); return '{';
-"}" P_XML_SYM(yytext); return '}';
-"(" P_XML_SYM(yytext); return '(';
-")" P_XML_SYM(yytext); return ')';
-"[" P_XML_SYM(yytext); return '[';
-"]" P_XML_SYM(yytext); return ']';
-"." P_XML_SYM(yytext); return '.';
-"," P_XML_SYM(yytext); return ',';
-";" P_XML_SYM(yytext); return ';';
-"+" P_XML_SYM(yytext); return '+';
-"-" P_XML_SYM(yytext); return '-';
-"*" P_XML_SYM(yytext); return '*';
-"/" P_XML_SYM(yytext); return '/';
-"&" P_XML_SYM("&amp;"); return '&';
-"|" P_XML_SYM(yytext); return '|';
-"<" P_XML_SYM("&lt;"); return '<';
-">" P_XML_SYM("&gt;"); return '>';
-"=" P_XML_SYM(yytext); return '=';
-"~" P_XML_SYM(yytext); return '~';
+"{" P_XML_SYM(yytext); COPY_STRING; return '{';
+"}" P_XML_SYM(yytext); COPY_STRING; return '}';
+"(" P_XML_SYM(yytext); COPY_STRING; return '(';
+")" P_XML_SYM(yytext); COPY_STRING; return ')';
+"[" P_XML_SYM(yytext); COPY_STRING; return '[';
+"]" P_XML_SYM(yytext); COPY_STRING; return ']';
+"." P_XML_SYM(yytext); COPY_STRING; return '.';
+"," P_XML_SYM(yytext); COPY_STRING; return ',';
+";" P_XML_SYM(yytext); COPY_STRING; return ';';
+"+" P_XML_SYM(yytext); COPY_STRING; return '+';
+"-" P_XML_SYM(yytext); COPY_STRING; return '-';
+"*" P_XML_SYM(yytext); COPY_STRING; return '*';
+"/" P_XML_SYM(yytext); COPY_STRING; return '/';
+"&" P_XML_SYM("&amp;"); COPY_STRING; return '&';
+"|" P_XML_SYM(yytext); COPY_STRING; return '|';
+"<" P_XML_SYM("&lt;"); COPY_STRING; return '<';
+">" P_XML_SYM("&gt;"); COPY_STRING; return '>';
+"=" P_XML_SYM(yytext); COPY_STRING; return '=';
+"~" P_XML_SYM(yytext); COPY_STRING; return '~';
 
 {REGEXP_NUMBER} {
   sscanf(yytext, "%d", &yylval.num);
@@ -88,7 +93,7 @@ return      P_XML_KW(yytext); return RETURN;
   char *text = ++yytext;
   text[strlen(text) - 1] = '\0';
   yylval.str = ALLOC_STRING(text);
-  sscanf(text, "%s", yylval.str);
+  sscanf(text, "%[^\n]", yylval.str);
 #ifdef CHAPTER10_XML_TOKEN
   fprintf(stdout, "<stringConstant> %s </stringConstant>\n", text);
 #endif
@@ -96,8 +101,7 @@ return      P_XML_KW(yytext); return RETURN;
 }
 
 {REGEXP_IDENTIFIER} {
-  yylval.str = ALLOC_STRING(yytext);
-  sscanf(yytext, "%s", yylval.str);
+  COPY_STRING;
 #ifdef CHAPTER10_XML_TOKEN
   fprintf(stdout, "<identifier> %s </identifier>\n", yytext);
 #endif

@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 CC := gcc
-CFLAGS += -Wall
+CFLAGS += -Wall -std=c99 -D_POSIX_C_SOURCE=200809
 LEX := flex
 LFLAGS += -X
 YACC := bison
@@ -37,7 +37,13 @@ clean: bin
 	@rm -rf $^
 
 lint:
-	@cpplint $(sources_of_assembler) $(sources_of_vm_translator)
+	@cpplint \
+		$(sources_of_assembler) \
+		$(sources_of_vm_translator) \
+		compiler/node.h \
+		compiler/node.c \
+		compiler/parse_tree.h \
+		compiler/parse_tree.c
 
 bin/assembler: $(sources_of_assembler)
 	$(build-bin)
@@ -63,13 +69,13 @@ compiler/y.tab.h compiler/y.tab.c: compiler/parser.y
 compiler/lex.yy.c: compiler/scanner.l compiler/y.tab.h
 	$(strip $(LEX.l)) $^ > $@
 
-bin/compiler: compiler/y.tab.h compiler/y.tab.c compiler/lex.yy.c
+bin/compiler: compiler/node.h compiler/node.c compiler/parse_tree.h compiler/parse_tree.c compiler/y.tab.h compiler/y.tab.c compiler/lex.yy.c
 	$(build-bin)
 
 bin/compiler-debug: CFLAGS += -g
 bin/compiler-debug: CPPFLAGS += -DDEBUG
 bin/compiler-debug: CPPFLAGS += -DYYDEBUG=1
-bin/compiler-debug: compiler/y.tab.h compiler/y.tab.c compiler/lex.yy.c
+bin/compiler-debug: compiler/node.h compiler/node.c compiler/parse_tree.h compiler/parse_tree.c compiler/y.tab.h compiler/y.tab.c compiler/lex.yy.c
 	$(build-bin)
 
 assemble: bin bin/assembler
