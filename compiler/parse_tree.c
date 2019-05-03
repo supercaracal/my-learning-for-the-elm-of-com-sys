@@ -11,7 +11,8 @@ print_term_as_tag(FILE *fd, char *value, int indent, char *tag);
 static void
 print_sanitized_term_as_tag(FILE *fd, char *value, int indent, char *tag);
 
-void print_pt_as_xml(FILE *fd, struct pt_node *node, int indent) {
+void
+print_pt_as_xml(FILE *fd, struct pt_node *node, int indent) {
   if (node == NULL) return;
 
   switch (node->type) {
@@ -87,6 +88,16 @@ void print_pt_as_xml(FILE *fd, struct pt_node *node, int indent) {
     default:
       break;
   }
+}
+
+void
+free_pt(struct pt_node *node) {
+  int i;
+  if (node == NULL) return;
+  for (i = 0; i < node->size; ++i) free_pt(node->children[i]);
+  free(node->children);
+  // free(node->value); // FIXME: invalid pointer
+  free(node);
 }
 
 static void

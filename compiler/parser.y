@@ -28,7 +28,12 @@ static void yyerror(const char *msg);
 %right '~'
 %expect 18
 %%
-program: class { $$ = build_pt_root($1); print_pt_as_xml(stdout, $$, 0); }
+program: class
+         {
+           $$ = build_pt_root($1);
+           print_pt_as_xml(stdout, $$, 0);
+           free_pt($$);
+         }
        ;
 
 class: CLASS IDENTIFIER '{' opt_class_body '}' { $$ = build_pt_class($2, $4); }
